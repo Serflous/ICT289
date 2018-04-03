@@ -10,6 +10,5 @@ SET message=Standard Commit
 SET /p message=Enter a commit message: 
 @echo off
 call git add .
-PAUSE
 call git commit -m "%message%"
 call git push origin master
