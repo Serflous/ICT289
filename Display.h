@@ -7,6 +7,8 @@
     #include <GLUT/glut.h>
 #endif
 
+#include "Structs.h"
+
 extern const int INIT_WINDOW_SIZE_X;
 extern const int INIT_WINDOW_SIZE_Y;
 extern const int INIT_WINDOW_POS_X;
