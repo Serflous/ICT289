@@ -2,5 +2,6 @@
 *.depend
 *.layout
 *.lnk
+*.bat
 bin/*
 obj/*
