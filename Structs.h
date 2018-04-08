@@ -1,6 +1,10 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+struct Colour {
+    float red, green, blue;
+};
+
 struct Point3D
 {
     float x, y, z;

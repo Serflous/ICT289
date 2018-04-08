@@ -7,6 +7,8 @@
 #define BALL_SIZE_CM (4.28/2.0)
 #define BALL_SIZE_PX (BALL_SIZE_CM * PIXELS_PER_CM)
 
+#define BALL_DETAIL_LEVEL 12
+
 #define TARGET_FPS 120.0
 
 #define FRICTION 5.0
