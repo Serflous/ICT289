@@ -35,6 +35,35 @@ void drawArrow (struct Point3D ballPosition, float angle, struct Colour colour) 
     glPopMatrix();
 }
 
+//-- Draws the golf course hole relative to the course. It assumes the hole sits on the course
+//-- surface (and therefore doesn't need a Y coordinate).
+
+//-- However, the function also currently assumes the course is flat.
+
+void drawHole (GLfloat x, GLfloat z, GLfloat radius) {
+
+    glColor3f(0, 0, 0);
+    glPushMatrix();
+
+    //-- Note below: We need to add a tiny amount to the Y so the hole sits
+    //-- on top of the course surface
+
+    glTranslatef(coursePosition.x + x, coursePosition.y + 0.1, coursePosition.z + z);
+
+    glBegin(GL_POLYGON);
+
+    //-- Draw a disk by stepping around a circle and building a polygon in our wake
+
+    for (int i = 360; i > 0; i -= (360 / HOLE_DETAIL_LEVEL)) {
+      float angleInRadians = i * (M_PI / 180.0);
+      glVertex3f(cos(angleInRadians) * radius, 0, sin(angleInRadians) * radius);
+    }
+
+    glEnd();
+
+	glPopMatrix();
+}
+
 //-----------------------------------------------------------------------------------
 
 //-- This point onwards are temporary functions that draw a hard coded golf course.
@@ -100,11 +129,14 @@ void drawArrow (struct Point3D ballPosition, float angle, struct Colour colour) 
 
 void drawSquarePoly (int v1, int v2, int v3, int v4) {
 
+    //-- Note that the vertices are given in centimeters and must be multiplies by the pixels per centimeter.
+    //-- We do this in code in case the pixels per centimeter change
+
     glBegin(GL_POLYGON);
-        glVertex3f(vertices[v1].x, vertices[v1].y, vertices[v1].z);
-        glVertex3f(vertices[v2].x, vertices[v2].y, vertices[v2].z);
-        glVertex3f(vertices[v3].x, vertices[v3].y, vertices[v3].z);
-        glVertex3f(vertices[v4].x, vertices[v4].y, vertices[v4].z);
+        glVertex3f(vertices[v1].x * PIXELS_PER_CM, vertices[v1].y * PIXELS_PER_CM, vertices[v1].z * PIXELS_PER_CM);
+        glVertex3f(vertices[v2].x * PIXELS_PER_CM, vertices[v2].y * PIXELS_PER_CM, vertices[v2].z * PIXELS_PER_CM);
+        glVertex3f(vertices[v3].x * PIXELS_PER_CM, vertices[v3].y * PIXELS_PER_CM, vertices[v3].z * PIXELS_PER_CM);
+        glVertex3f(vertices[v4].x * PIXELS_PER_CM, vertices[v4].y * PIXELS_PER_CM, vertices[v4].z * PIXELS_PER_CM);
     glEnd();
 }
 
@@ -119,23 +151,23 @@ void drawCourse (struct Point3D position) {
 
     glColor3f(0, 1, 0);
 
-    drawSquarePoly(0, 1, 2, 3);
-    drawSquarePoly(4, 5, 6, 7);
-    drawSquarePoly(8, 9, 10, 11);
+    drawSquarePoly(3,2,1,0);
+    drawSquarePoly(7,6,5,4);
+    drawSquarePoly(11,10,9,8);
 
     //-- Draw the tops of the walls
 
     glColor3f(0.490, 0.3137, 0.1411);
-    drawSquarePoly(12, 13, 14, 15);
-    drawSquarePoly(12, 15, 16, 17);
+    drawSquarePoly(15,14,13,12);
+    drawSquarePoly(17,16,15,12);
     drawSquarePoly(13, 14, 18, 19);
     drawSquarePoly(16, 17, 20, 21);
-    drawSquarePoly(18, 19, 22, 23);
-    drawSquarePoly(20, 21, 24, 25);
+    drawSquarePoly(23,22,19,18);
+    drawSquarePoly(25,24,21,20);
     drawSquarePoly(22, 23, 26, 27);
     drawSquarePoly(24, 25, 28, 29);
-    drawSquarePoly(26, 27, 30, 31);
-    drawSquarePoly(28, 29, 32, 33);
+    drawSquarePoly(31,30,27,26);
+    drawSquarePoly(33,32,29,28);
     drawSquarePoly(30, 31, 34, 35);
     drawSquarePoly(32, 33, 35, 34);
 
@@ -143,14 +175,14 @@ void drawCourse (struct Point3D position) {
 
     glColor3f(0.3921, 0.2196, 0.0470);
     drawSquarePoly(0, 1, 14, 15);
-    drawSquarePoly(0, 3, 16, 15);
+    drawSquarePoly(15,16,3,0);
     drawSquarePoly(1, 2, 18, 14);
-    drawSquarePoly(2, 18, 23, 5);
+    drawSquarePoly(5,23,18,2);
     drawSquarePoly(3, 16, 21, 4);
-    drawSquarePoly(4, 7, 24, 21);
+    drawSquarePoly(21,24,7,4);
     drawSquarePoly(5, 6, 26, 23);
-    drawSquarePoly(7, 8, 29, 24);
-    drawSquarePoly(6, 26, 31, 9);
+    drawSquarePoly(24,29,8,7);
+    drawSquarePoly(9,31,26,6);
     drawSquarePoly(9, 10, 34, 31);
     drawSquarePoly(8, 29, 32, 11);
     drawSquarePoly(11, 32, 34, 10);

@@ -19,6 +19,13 @@ void InitializeGLUT(int * argc, char ** argv)
     glutDisplayFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
     glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
+
+    //-- Backface culling
+
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
+
 }
 
 void DisplayCallback()
