@@ -9,7 +9,7 @@
 //-- Returns:     Nothing.
 //-- Limitations: Currently, the function only supports 2D vectors on an X/Z plane.
 
-void Calculate2DVector (struct MovementVector *vector, float angle, float magnitude)
+void Calculate2DVector (struct MovementVector3D *vector, float angle, float magnitude)
 {
     //-- Convert the angle to radians
 
@@ -33,7 +33,7 @@ void Calculate2DVector (struct MovementVector *vector, float angle, float magnit
 //-- Limitations: Currently, the function only supports 2D vectors on an X/Z plane. It does not support slopes or
 //                gravity.
 
-void ApplyMovement (struct Point *location, struct MovementVector movement)
+void ApplyMovement (struct Point3D *location, struct MovementVector3D movement)
 {
     //-- For each coordinate of the location, add the relevant vector value multiplied by the magnitude
 
@@ -51,7 +51,7 @@ void ApplyMovement (struct Point *location, struct MovementVector movement)
 //-- Notes:       The correct rolling resistance of baize is 0.005 - 0.015
 //--              (http://billiards.colostate.edu/threads/physics.html)
 
-bool ApplyFriction (struct MovementVector *movement, GLfloat rollingResistance) {
+bool ApplyFriction (struct MovementVector3D *movement, GLfloat rollingResistance) {
 
     //-- If we're not moving, leave
 
@@ -84,7 +84,7 @@ bool ApplyFriction (struct MovementVector *movement, GLfloat rollingResistance) 
 //-- Notes:       The correct coefficient of restitution for a golf ball on wood is approx 0.67
 //--              (http://iopscience.iop.org/article/10.1088/1757-899X/36/1/012038/meta)
 
-bool ApplyImpact (struct MovementVector *movement, struct Vector obstacleFace, GLfloat coefficientOfRestitution)
+bool ApplyImpact (struct MovementVector3D *movement, struct Vector3D obstacleFace, GLfloat coefficientOfRestitution)
 {
     //---------- First, reflect the vector
 

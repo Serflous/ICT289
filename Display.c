@@ -33,12 +33,13 @@ void DisplayCallback()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glBegin(GL_TRIANGLES);
-        glColor3f(0.4039f, 0.7373f, 0.6314f);
-        glVertex3f(0.0f, 0.5f, -2.0f);
+    glColor3f(0.2235f, 0.302f, 0.5176f);
+        glVertex3f(-0.5f, -0.5f, -4.0f);
+
         glColor3f(0.5882f, 0.1294f, 0.2118f);
         glVertex3f(0.5f, -0.5f, -3.0f);
-        glColor3f(0.2235f, 0.302f, 0.5176f);
-        glVertex3f(-0.5f, -0.5f, -4.0f);
+        glColor3f(0.4039f, 0.7373f, 0.6314f);
+        glVertex3f(0.0f, 0.5f, -2.0f);
     glEnd();
 
     glutSwapBuffers();

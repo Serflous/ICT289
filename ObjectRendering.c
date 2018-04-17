@@ -1,4 +1,5 @@
 #include "ObjectRendering.h"
+#include <math.h>
 
 //-- Renders the ball, given it's position and colour
 
@@ -12,7 +13,7 @@ void drawBall (struct Point3D position, struct Colour colour) {
 
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
-    glutSolidSphere(BALL_SIZE_PX, BALL_DETAIL_LEVEL, BALL_DETAIL_LEVEL);
+    glutSolidSphere(BALL_RADIUS_PX, BALL_DETAIL_LEVEL, BALL_DETAIL_LEVEL);
     glPopMatrix();
 }
 
@@ -40,7 +41,7 @@ void drawArrow (struct Point3D ballPosition, float angle, struct Colour colour) 
 
 //-- However, the function also currently assumes the course is flat.
 
-void drawHole (GLfloat x, GLfloat z, GLfloat radius) {
+void drawHole (GLfloat x, GLfloat y, GLfloat z, GLfloat radius) {
 
     glColor3f(0, 0, 0);
     glPushMatrix();
@@ -48,7 +49,7 @@ void drawHole (GLfloat x, GLfloat z, GLfloat radius) {
     //-- Note below: We need to add a tiny amount to the Y so the hole sits
     //-- on top of the course surface
 
-    glTranslatef(coursePosition.x + x, coursePosition.y + 0.1, coursePosition.z + z);
+    glTranslatef(x, y, z);
 
     glBegin(GL_POLYGON);
 

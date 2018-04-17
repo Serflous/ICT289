@@ -10,6 +10,14 @@ struct Point3D
     float x, y, z;
 };
 
+struct Vector3D {
+	GLfloat x, y, z;
+};
+
+struct MovementVector3D {
+	GLfloat x, y, z, magnitude;
+};
+
 struct UV
 {
     float u, v;
@@ -46,6 +54,14 @@ struct Level
 {
     struct Entity * entities;
     struct Camera camera;
+};
+
+
+struct Ball {
+
+    struct Point3D position;
+    struct MovementVector3D motion;
+
 };
 
 #endif // STRUCTS_H
