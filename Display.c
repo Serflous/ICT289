@@ -24,6 +24,8 @@ void InitializeGLUT(int * argc, char ** argv)
     glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     //-- Backface culling
 
     glEnable(GL_CULL_FACE);
