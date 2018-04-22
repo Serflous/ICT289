@@ -1,6 +1,13 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+// Cross platform freeglut compile
+#ifdef _WIN32
+    #include <GL/freeglut.h>
+#elif __APPLE__
+    #include <GLUT/glut.h>
+#endif
+
 struct Colour {
     float red, green, blue;
 };

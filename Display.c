@@ -1,5 +1,4 @@
 #include "Display.h"
-#include "TextureLoading.h"
 
 const int INIT_WINDOW_SIZE_X = 1280;
 const int INIT_WINDOW_SIZE_Y = 720;
@@ -22,6 +21,7 @@ void InitializeGLUT(int * argc, char ** argv)
     glutDisplayFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
     glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
+    //glClearColor(0, 0, 0, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -33,12 +33,14 @@ void InitializeGLUT(int * argc, char ** argv)
     glCullFace(GL_BACK);
 
     balloonTex = LoadTexture("res/balloon.raw", 512, 512, 4);
-
+    InitializeUI();
 }
 
 void DisplayCallback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Draw 3D
     glBindTexture(GL_TEXTURE_2D, balloonTex.texId);
     glBegin(GL_TRIANGLES);
         glTexCoord2f(0, 0);
@@ -56,6 +58,8 @@ void DisplayCallback()
         glVertex3f(0.5f, 0.5f, -5);
     glEnd();
 
+    // Draw 2D / UI
+    DrawUI();
     glutSwapBuffers();
 }
 

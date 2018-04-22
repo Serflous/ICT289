@@ -8,6 +8,8 @@
 #endif
 
 #include "Structs.h"
+#include "TextureLoading.h"
+#include "UI.h"
 
 extern const int INIT_WINDOW_SIZE_X;
 extern const int INIT_WINDOW_SIZE_Y;

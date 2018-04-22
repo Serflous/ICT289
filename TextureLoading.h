@@ -9,6 +9,6 @@
 #endif
 #include "Structs.h"
 
-struct Texture LoadTexture(const char * filepath, int width, int height, int byteSize);
+extern struct Texture LoadTexture(const char * filepath, int width, int height, int byteSize);
 
 #endif // TEXTURELOADING_H
