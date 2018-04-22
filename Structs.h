@@ -26,6 +26,8 @@ struct UV
 struct Texture
 {
     GLuint texId;
+    int texWidth;
+    int texHeight;
 };
 
 struct Model

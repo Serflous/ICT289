@@ -1,4 +1,5 @@
 #include "Display.h"
+#include "TextureLoading.h"
 
 const int INIT_WINDOW_SIZE_X = 1280;
 const int INIT_WINDOW_SIZE_Y = 720;
@@ -8,6 +9,8 @@ const char * WINDOW_TITLE = "ICT289 Game";
 const int PERSPECTIVE_FOV = 45;
 const float PERSPECTIVE_NEAR = 0.1f;
 const float PERSPECTIVE_FAR = 1000.0f;
+
+struct Texture balloonTex;
 
 void InitializeGLUT(int * argc, char ** argv)
 {
@@ -20,26 +23,35 @@ void InitializeGLUT(int * argc, char ** argv)
     glutReshapeFunc(ReshapeCallback);
     glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
 
+    glEnable(GL_TEXTURE_2D);
     //-- Backface culling
 
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
+    balloonTex = LoadTexture("res/balloon.raw", 512, 512, 4);
+
 }
 
 void DisplayCallback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    glBindTexture(GL_TEXTURE_2D, balloonTex.texId);
     glBegin(GL_TRIANGLES);
-    glColor3f(0.2235f, 0.302f, 0.5176f);
-        glVertex3f(-0.5f, -0.5f, -4.0f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.5f, 0.5f, -5);
+        glTexCoord2f(0, 1);
+        glVertex3f(-0.5f, -0.5f, -5);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.5f, -0.5f, -5);
 
-        glColor3f(0.5882f, 0.1294f, 0.2118f);
-        glVertex3f(0.5f, -0.5f, -3.0f);
-        glColor3f(0.4039f, 0.7373f, 0.6314f);
-        glVertex3f(0.0f, 0.5f, -2.0f);
+        glTexCoord2f(0, 0);
+        glVertex3f(-0.5f, 0.5f, -5);
+        glTexCoord2f(1, 1);
+        glVertex3f(0.5f, -0.5f, -5);
+        glTexCoord2f(1, 0);
+        glVertex3f(0.5f, 0.5f, -5);
     glEnd();
 
     glutSwapBuffers();
