@@ -19,6 +19,7 @@ void InitializeGLUT(int * argc, char ** argv)
     glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
     glutCreateWindow(WINDOW_TITLE);
     glutDisplayFunc(DisplayCallback);
+    glutIdleFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
     glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
     //glClearColor(0, 0, 0, 1.0f);

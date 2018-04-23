@@ -2,11 +2,15 @@
 
 struct Texture texPowerTitle;
 struct Texture texPowerBar;
+struct Texture texPowerBarFill;
+float barPercentage;
 
 void InitializeUI()
 {
     texPowerTitle = LoadTexture("res/powerTitle.raw", 64, 32, 4);
     texPowerBar = LoadTexture("res/powerBar.raw", 16, 128, 4);
+    texPowerBarFill = LoadTexture("res/powerBarFill.raw", 16, 16, 4);
+    barPercentage = 0;
 }
 
 void DrawUI()
@@ -16,6 +20,8 @@ void DrawUI()
     int powerTitleStartX = windowWidth - texPowerTitle.texWidth;
     int powerBarStartX = windowWidth - (texPowerTitle.texWidth / 2) - (texPowerBar.texWidth  /2);
     int powerBarStartY = texPowerTitle.texHeight + 10;
+    float barHeight = (texPowerBar.texHeight) * (1 - barPercentage);
+    float texBarHeight = barHeight / 16.0f;
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
         glLoadIdentity();
@@ -47,6 +53,19 @@ void DrawUI()
                 glVertex3f(powerBarStartX + texPowerBar.texWidth, powerBarStartY + texPowerBar.texHeight, 0);
                 glTexCoord2f(1, 0);
                 glVertex3f(powerBarStartX + texPowerBar.texWidth, powerBarStartY, 0);
+            glEnd();
+
+            // Fill Power Bar
+            glBindTexture(GL_TEXTURE_2D, texPowerBarFill.texId);
+            glBegin(GL_QUADS);
+                glTexCoord2f(0, 0);
+                glVertex3f(powerBarStartX, powerBarStartY + barHeight, 0);
+                glTexCoord2f(0, texBarHeight);
+                glVertex3f(powerBarStartX, powerBarStartY + texPowerBar.texHeight, 0);
+                glTexCoord2f(1, texBarHeight);
+                glVertex3f(powerBarStartX + texPowerBarFill.texWidth, powerBarStartY + texPowerBar.texHeight, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(powerBarStartX + texPowerBarFill.texWidth, powerBarStartY + barHeight, 0);
             glEnd();
         glPopMatrix();
         glMatrixMode(GL_PROJECTION);

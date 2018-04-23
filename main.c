@@ -50,9 +50,15 @@ void specialKeysCallback (int key, int x, int y) {
     switch (key) {
 
     case GLUT_KEY_UP:
+        barPercentage += BAR_SPEED;
+        if(barPercentage > 1)
+            barPercentage = 1;
         break;
 
     case GLUT_KEY_DOWN:
+        barPercentage -= BAR_SPEED;
+        if(barPercentage < 0)
+            barPercentage = 0;
         break;
 
     case GLUT_KEY_LEFT:

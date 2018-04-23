@@ -4,6 +4,8 @@
 #include "Structs.h"
 #include "TextureLoading.h"
 
-extern void InitializeUI();
+extern float barPercentage;
+
+void InitializeUI();
 
 #endif // UI_H
