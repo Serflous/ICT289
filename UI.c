@@ -15,13 +15,13 @@ void InitializeUI()
 
 void DrawUI()
 {
-    int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
-    int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
-    int powerTitleStartX = windowWidth - texPowerTitle.texWidth;
-    int powerBarStartX = windowWidth - (texPowerTitle.texWidth / 2) - (texPowerBar.texWidth  /2);
-    int powerBarStartY = texPowerTitle.texHeight + 10;
-    float barHeight = (texPowerBar.texHeight) * (1 - barPercentage);
-    float texBarHeight = barHeight / 16.0f;
+    int windowWidth = glutGet(GLUT_WINDOW_WIDTH); // Window Width
+    int windowHeight = glutGet(GLUT_WINDOW_HEIGHT); // Window Height
+    int powerTitleStartX = windowWidth - texPowerTitle.texWidth; // Calculate the x position of the title.
+    int powerBarStartX = windowWidth - (texPowerTitle.texWidth / 2) - (texPowerBar.texWidth  /2); // Calculate the X position of the power bar outline
+    int powerBarStartY = texPowerTitle.texHeight + 10; // Calculate the Y position of the power bar outline
+    float barHeight = (texPowerBar.texHeight) * (1 - barPercentage); // Calculate the height of the bar to draw based on percentage
+    float texBarHeight = (texPowerBar.texHeight - barHeight) / texPowerBarFill.texHeight; // Calculate the value of the texture height. Values > 1 create tiling effect.
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
         glLoadIdentity();
@@ -70,5 +70,4 @@ void DrawUI()
         glPopMatrix();
         glMatrixMode(GL_PROJECTION);
     glPopMatrix();
-
 }
