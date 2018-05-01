@@ -4,6 +4,7 @@ struct Texture texPowerTitle;
 struct Texture texPowerBar;
 struct Texture texPowerBarFill;
 float barPercentage;
+bool spaceDown;
 
 void InitializeUI()
 {
@@ -11,6 +12,7 @@ void InitializeUI()
     texPowerBar = LoadTexture("res/powerBar.raw", 16, 128, 4);
     texPowerBarFill = LoadTexture("res/powerBarFill.raw", 16, 16, 4);
     barPercentage = 0;
+    spaceDown = FALSE;
 }
 
 void DrawUI()
@@ -70,4 +72,45 @@ void DrawUI()
         glPopMatrix();
         glMatrixMode(GL_PROJECTION);
     glPopMatrix();
+}
+
+void UpdateUI()
+{
+    /*if(IsKeyDown('W', FALSE) || IsKeyDown('w', FALSE))
+    {
+        barPercentage += BAR_SPEED;
+        if(barPercentage > 1)
+            barPercentage = 1;
+    }
+    if(IsKeyDown('S', FALSE) || IsKeyDown('s', FALSE))
+    {
+        barPercentage -= BAR_SPEED;
+        if(barPercentage < 0)
+            barPercentage = 0;
+    }*/
+    if(IsKeyDown(' ', FALSE) && spaceDown == FALSE)
+    {
+        spaceDown = TRUE;
+        barPercentage = 0.01f;
+    }
+    if(IsKeyUp(' ', FALSE) && spaceDown == TRUE)
+    {
+        spaceDown = FALSE;
+        printf("Power: %f\n", barPercentage);
+    }
+    if(spaceDown == TRUE)
+    {
+        barPercentage += GetBarSpeed();
+        if(barPercentage > 1)
+            barPercentage = 0.01f;
+    }
+    else
+    {
+        barPercentage = 0;
+    }
+}
+
+float GetBarSpeed()
+{
+    return 0.1f * powf(barPercentage, 1.4f);
 }

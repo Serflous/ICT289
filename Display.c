@@ -81,16 +81,5 @@ void Update()
     {
         exit(0);
     }
-    if(IsKeyDown('W', FALSE) || IsKeyDown('w', FALSE))
-    {
-        barPercentage += BAR_SPEED;
-        if(barPercentage > 1)
-            barPercentage = 1;
-    }
-    if(IsKeyDown('S', FALSE) || IsKeyDown('s', FALSE))
-    {
-        barPercentage -= BAR_SPEED;
-        if(barPercentage < 0)
-            barPercentage = 0;
-    }
+    UpdateUI();
 }
