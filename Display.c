@@ -21,7 +21,8 @@ void InitializeGLUT(int * argc, char ** argv)
     glutDisplayFunc(DisplayCallback);
     glutIdleFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
-    glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
+    //glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
+    glClearColor(0, 0, 0, 1.0f);
     //glClearColor(0, 0, 0, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
@@ -32,6 +33,8 @@ void InitializeGLUT(int * argc, char ** argv)
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
+
+    glutFullScreen();
 
     balloonTex = LoadTexture("res/balloon.raw", 512, 512, 4);
     InitializeUI();

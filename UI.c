@@ -3,6 +3,8 @@
 struct Texture texPowerTitle;
 struct Texture texPowerBar;
 struct Texture texPowerBarFill;
+struct Texture texUIBarCorner;
+struct Texture texUIBarLine;
 float barPercentage;
 bool spaceDown;
 
@@ -11,12 +13,15 @@ void InitializeUI()
     texPowerTitle = LoadTexture("res/powerTitle.raw", 64, 32, 4);
     texPowerBar = LoadTexture("res/powerBar.raw", 16, 128, 4);
     texPowerBarFill = LoadTexture("res/powerBarFill.raw", 16, 16, 4);
+    texUIBarCorner = LoadTexture("res/UI_Frame_Corner.raw", 32, 32, 4);
+    texUIBarLine = LoadTexture("res/UI_Frame_Line.raw", 1, 32, 4);
     barPercentage = 0;
     spaceDown = FALSE;
 }
 
 void DrawUI()
 {
+    // UI BAR RGB(135, 209, 237)
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH); // Window Width
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT); // Window Height
     int powerTitleStartX = windowWidth - texPowerTitle.texWidth; // Calculate the x position of the title.
@@ -24,6 +29,7 @@ void DrawUI()
     int powerBarStartY = texPowerTitle.texHeight + 10; // Calculate the Y position of the power bar outline
     float barHeight = (texPowerBar.texHeight) * (1 - barPercentage); // Calculate the height of the bar to draw based on percentage
     float texBarHeight = (texPowerBar.texHeight - barHeight) / texPowerBarFill.texHeight; // Calculate the value of the texture height. Values > 1 create tiling effect.
+    float uiBarWidth = windowWidth / 5;
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
         glLoadIdentity();
@@ -31,6 +37,87 @@ void DrawUI()
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
             glLoadIdentity();
+            // Draw UI Bar
+            // Top Left Corner
+            glBindTexture(GL_TEXTURE_2D, texUIBarCorner.texId);
+            glBegin(GL_QUADS);
+                glTexCoord2f(0, 0);
+                glVertex3f(windowWidth - uiBarWidth, 0, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(windowWidth - uiBarWidth, texUIBarCorner.texHeight, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, texUIBarCorner.texHeight, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, 0, 0);
+            glEnd();
+            // Top Right Corner
+            glBegin(GL_QUADS);
+                glTexCoord2f(0, 1);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, 0, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, texUIBarCorner.texHeight, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(windowWidth, texUIBarCorner.texHeight, 0);
+                glTexCoord2f(0, 0);
+                glVertex3f(windowWidth, 0, 0);
+            glEnd();
+            // Bottom Left
+            glBegin(GL_QUADS);
+                glTexCoord2f(1, 0);
+                glVertex3f(windowWidth - uiBarWidth, windowHeight - texUIBarCorner.texHeight, 0);
+                glTexCoord2f(0, 0);
+                glVertex3f(windowWidth - uiBarWidth, windowHeight, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, windowHeight, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, windowHeight - texUIBarCorner.texHeight, 0);
+            glEnd();
+            // Bottom Right
+            glBegin(GL_QUADS);
+                glTexCoord2f(1, 1);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, windowHeight - texUIBarCorner.texHeight, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, windowHeight, 0);
+                glTexCoord2f(0, 0);
+                glVertex3f(windowWidth, windowHeight, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(windowWidth, windowHeight - texUIBarCorner.texHeight, 0);
+            glEnd();
+            // Middle Lines
+            glBindTexture(GL_TEXTURE_2D, texUIBarLine.texId);
+            glBegin(GL_QUADS);
+                glTexCoord2f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, 0);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, 0, 0);
+                glTexCoord2f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, 1);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, windowHeight, 0);
+                glTexCoord2f(windowWidth - texUIBarCorner.texWidth, 1);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, windowHeight, 0);
+                glTexCoord2f(windowWidth - texUIBarCorner.texWidth, 0);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, 0, 0);
+            glEnd();
+            //Left Side Lines
+            glBegin(GL_QUADS);
+                glTexCoord2f(windowWidth - uiBarWidth, 0);
+                glVertex3f(windowWidth - uiBarWidth, texUIBarCorner.texHeight, 0);
+                glTexCoord2f(windowWidth - uiBarWidth, 1);
+                glVertex3f(windowWidth - uiBarWidth, windowHeight - texUIBarCorner.texHeight, 0);
+                glTexCoord2f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, 1);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, windowHeight - texUIBarCorner.texHeight, 0);
+                glTexCoord2f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, 0);
+                glVertex3f(windowWidth - uiBarWidth + texUIBarCorner.texWidth, texUIBarCorner.texHeight, 0);
+            glEnd();
+            // Right Side Lines
+            glBegin(GL_QUADS);
+                glTexCoord2f(windowWidth - texUIBarCorner.texWidth, 0);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, texUIBarCorner.texHeight, 0);
+                glTexCoord2f(windowWidth - texUIBarCorner.texWidth, 1);
+                glVertex3f(windowWidth - texUIBarCorner.texWidth, windowHeight - texUIBarCorner.texHeight, 0);
+                glTexCoord2f(windowWidth, 1);
+                glVertex3f(windowWidth, windowHeight - texUIBarCorner.texHeight, 0);
+                glTexCoord2f(windowWidth, 0);
+                glVertex3f(windowWidth, texUIBarCorner.texHeight, 0);
+            glEnd();
+
             // Draw Power Title
             glBindTexture(GL_TEXTURE_2D, texPowerTitle.texId);
             glBegin(GL_QUADS);
@@ -76,18 +163,6 @@ void DrawUI()
 
 void UpdateUI()
 {
-    /*if(IsKeyDown('W', FALSE) || IsKeyDown('w', FALSE))
-    {
-        barPercentage += BAR_SPEED;
-        if(barPercentage > 1)
-            barPercentage = 1;
-    }
-    if(IsKeyDown('S', FALSE) || IsKeyDown('s', FALSE))
-    {
-        barPercentage -= BAR_SPEED;
-        if(barPercentage < 0)
-            barPercentage = 0;
-    }*/
     if(IsKeyDown(' ', FALSE) && spaceDown == FALSE)
     {
         spaceDown = TRUE;
