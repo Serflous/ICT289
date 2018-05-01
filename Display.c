@@ -39,10 +39,11 @@ void InitializeGLUT(int * argc, char ** argv)
 
 void DisplayCallback()
 {
+    Update();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Draw 3D
-    glBindTexture(GL_TEXTURE_2D, balloonTex.texId);
+    /*glBindTexture(GL_TEXTURE_2D, balloonTex.texId);
     glBegin(GL_TRIANGLES);
         glTexCoord2f(0, 0);
         glVertex3f(-0.5f, 0.5f, -5);
@@ -57,7 +58,7 @@ void DisplayCallback()
         glVertex3f(0.5f, -0.5f, -5);
         glTexCoord2f(1, 0);
         glVertex3f(0.5f, 0.5f, -5);
-    glEnd();
+    glEnd();*/
 
     // Draw 2D / UI
     DrawUI();
@@ -71,4 +72,25 @@ void ReshapeCallback(int x, int y)
     glViewport(0, 0, x, y);
     gluPerspective(PERSPECTIVE_FOV, x/y, PERSPECTIVE_NEAR, PERSPECTIVE_FAR);
     glMatrixMode(GL_MODELVIEW);
+}
+
+void Update()
+{
+    //printf("Update\n");
+    if(IsKeyDown(ESCAPE_KEY, FALSE))
+    {
+        exit(0);
+    }
+    if(IsKeyDown('W', FALSE) || IsKeyDown('w', FALSE))
+    {
+        barPercentage += BAR_SPEED;
+        if(barPercentage > 1)
+            barPercentage = 1;
+    }
+    if(IsKeyDown('S', FALSE) || IsKeyDown('s', FALSE))
+    {
+        barPercentage -= BAR_SPEED;
+        if(barPercentage < 0)
+            barPercentage = 0;
+    }
 }

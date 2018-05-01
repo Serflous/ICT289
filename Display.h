@@ -10,6 +10,8 @@
 #include "Structs.h"
 #include "TextureLoading.h"
 #include "UI.h"
+#include "Constants.h"
+#include "Input.h"
 
 extern const int INIT_WINDOW_SIZE_X;
 extern const int INIT_WINDOW_SIZE_Y;
@@ -23,5 +25,6 @@ extern const float PERSPECTIVE_FAR;
 void InitializeGLUT(int * argc, char ** argv);
 void DisplayCallback();
 void ReshapeCallback(int x, int y);
+void Update();
 
 #endif // DISPLAY_H

@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include "Display.h"
+#include "Input.h"
 
 void normalKeysCallback (unsigned char key, int x, int y);
 void specialKeysCallback (int key, int x, int y);
@@ -13,8 +14,13 @@ int main(int argc, char ** argv)
 
     //-- Initialise input callbacks
 
-    glutSpecialFunc(specialKeysCallback);
-    glutKeyboardFunc(normalKeysCallback);
+    //glutSpecialFunc(specialKeysCallback);
+    //glutKeyboardFunc(normalKeysCallback);
+    InputInitialize();
+    glutKeyboardFunc(NormalKeyDownCallback);
+    glutKeyboardUpFunc(NormalKeyUpCallback);
+    glutSpecialFunc(SpecialKeyDownCallback);
+    glutSpecialUpFunc(SpecialKeyUpCallback);
 
     glutMainLoop();
 
@@ -33,8 +39,18 @@ void normalKeysCallback (unsigned char key, int x, int y) {
     case 'A':
         break;
 
+    case 'w':
+    case 'W':
+        barPercentage += BAR_SPEED;
+        if(barPercentage > 1)
+            barPercentage = 1;
+        break;
+
     case 's':
     case 'S':
+        barPercentage -= BAR_SPEED;
+        if(barPercentage < 0)
+            barPercentage = 0;
         break;
 
     case ESCAPE_KEY:
@@ -50,15 +66,11 @@ void specialKeysCallback (int key, int x, int y) {
     switch (key) {
 
     case GLUT_KEY_UP:
-        barPercentage += BAR_SPEED;
-        if(barPercentage > 1)
-            barPercentage = 1;
+
         break;
 
     case GLUT_KEY_DOWN:
-        barPercentage -= BAR_SPEED;
-        if(barPercentage < 0)
-            barPercentage = 0;
+
         break;
 
     case GLUT_KEY_LEFT:
