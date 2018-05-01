@@ -1,6 +1,15 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+#include "Bool.h"
+
+// Cross platform freeglut compile
+#ifdef _WIN32
+    #include <GL/freeglut.h>
+#elif __APPLE__
+    #include <GLUT/glut.h>
+#endif
+
 struct Colour {
     float red, green, blue;
 };
@@ -26,6 +35,8 @@ struct UV
 struct Texture
 {
     GLuint texId;
+    int texWidth;
+    int texHeight;
 };
 
 struct Model
@@ -50,18 +61,11 @@ struct Camera
     struct Point3D up;
 };
 
-struct Level
-{
-    struct Entity * entities;
-    struct Camera camera;
-};
-
-
 struct Ball {
 
     struct Point3D position;
     struct MovementVector3D motion;
-
+    bool hasStopped;
 };
 
 #endif // STRUCTS_H

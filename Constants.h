@@ -20,4 +20,6 @@
 #define FRICTION 5.0
 #define SPEED_LOST_ON_WALL_IMPACT 0.67
 
+#define BAR_SPEED 0.01f
+
 #endif // CONSTANTS_H_INCLUDED
