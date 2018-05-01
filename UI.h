@@ -7,7 +7,7 @@
 #include "Bool.h"
 #include <math.h>
 
-extern float barPercentage;
+float barPercentage;
 
 void InitializeUI();
 void UpdateUI();

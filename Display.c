@@ -21,9 +21,7 @@ void InitializeGLUT(int * argc, char ** argv)
     glutDisplayFunc(DisplayCallback);
     glutIdleFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
-    //glClearColor(0.3922f, 0.5843f, 0.9294f, 1.0f);
     glClearColor(0, 0, 0, 1.0f);
-    //glClearColor(0, 0, 0, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -46,22 +44,6 @@ void DisplayCallback()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Draw 3D
-    /*glBindTexture(GL_TEXTURE_2D, balloonTex.texId);
-    glBegin(GL_TRIANGLES);
-        glTexCoord2f(0, 0);
-        glVertex3f(-0.5f, 0.5f, -5);
-        glTexCoord2f(0, 1);
-        glVertex3f(-0.5f, -0.5f, -5);
-        glTexCoord2f(1, 1);
-        glVertex3f(0.5f, -0.5f, -5);
-
-        glTexCoord2f(0, 0);
-        glVertex3f(-0.5f, 0.5f, -5);
-        glTexCoord2f(1, 1);
-        glVertex3f(0.5f, -0.5f, -5);
-        glTexCoord2f(1, 0);
-        glVertex3f(0.5f, 0.5f, -5);
-    glEnd();*/
 
     // Draw 2D / UI
     DrawUI();
@@ -79,7 +61,6 @@ void ReshapeCallback(int x, int y)
 
 void Update()
 {
-    //printf("Update\n");
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
         exit(0);

@@ -38,6 +38,7 @@ void DrawUI()
         glPushMatrix();
             glLoadIdentity();
             // Draw UI Bar
+            // Texture coords > 1 create tiling effect.
             // Top Left Corner
             glBindTexture(GL_TEXTURE_2D, texUIBarCorner.texId);
             glBegin(GL_QUADS);
