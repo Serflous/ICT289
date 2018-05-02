@@ -55,7 +55,7 @@ int main(int argc, char ** argv)
 void initialiseGameState() {
     hardcodedLevel(&(game.level));
     game.arrowAngle = 0.0;
-    game.power = 0.0;
+    game.power = 1.0;
     game.powerDirection = 1;
     game.ellapsedTime = game.previousTime = 0;
     game.numberOfStrokes = 0;
@@ -64,6 +64,7 @@ void initialiseGameState() {
     game.ball.position.x = game.level.ballStartingPosition.x + game.level.position.x;
     game.ball.position.y = game.level.ballStartingPosition.y + game.level.position.y;
     game.ball.position.z = game.level.ballStartingPosition.z + game.level.position.z;
+    game.ball.hasStopped = TRUE;
 
     game.camera.position.x = game.level.cameraPosition.x;
     game.camera.position.y = game.level.cameraPosition.y;
@@ -110,7 +111,7 @@ void Update()
         // we need to divide by the FPS twice - which is the same as dividing by the frame rate
         // squared.
 
-        game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance);
+        game.ball.hasStopped = ApplyFriction(&game.ball.motion, (game.level.rollingResistance * game.power * (1-lastBarPercentage)) / (game.ellapsedTime * game.ellapsedTime));
     }
 
     if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))
