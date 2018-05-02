@@ -208,7 +208,7 @@ void DrawUI()
     glPopMatrix();
 }
 
-void UpdateUI()
+void UpdateUI(int deltaTime)
 {
     if(IsKeyDown(' ', FALSE) && spaceDown == FALSE)
     {
@@ -222,7 +222,7 @@ void UpdateUI()
     }
     if(spaceDown == TRUE)
     {
-        barPercentage += GetBarSpeed();
+        barPercentage += GetBarSpeed(deltaTime);
         if(barPercentage > 1)
             barPercentage = 0.01f;
     }
@@ -232,14 +232,15 @@ void UpdateUI()
     }
 }
 
-float GetBarSpeed()
+float GetBarSpeed(int deltaTime)
 {
+    float newDelta = deltaTime / 20.0f;
     if(barPercentage < 0.3)
     {
-        return 0.013f;
+        return 0.011f * newDelta;
     }
     else
     {
-        return 0.07f * powf(barPercentage, 1.4f);
+        return 0.07f * powf(barPercentage, 1.4f) * newDelta;
     }
 }

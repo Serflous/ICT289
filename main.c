@@ -95,7 +95,7 @@ void Update()
     {
         exit(0);
     }
-    UpdateUI();
+    UpdateUI(game.ellapsedTime);
     glutPostRedisplay();
 }
 

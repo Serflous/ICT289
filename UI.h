@@ -11,7 +11,7 @@
 float barPercentage;
 
 void InitializeUI();
-void UpdateUI();
-float GetBarSpeed();
+void UpdateUI(int deltaTime);
+float GetBarSpeed(int deltaTime);
 
 #endif // UI_H
