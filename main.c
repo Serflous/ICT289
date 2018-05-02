@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "ConsoleIO.h"
 #include "ObjectRendering.h"
+#include "BallPhysics.h"
 #include "UI.h"
 
 void initialiseGameState();
@@ -48,7 +49,6 @@ int main(int argc, char ** argv)
 
     glutMainLoop();
 
-    freeLevel(&game.level);
     return 0;
 }
 
@@ -91,15 +91,26 @@ void Update()
     if(hasBeenHit == TRUE)
     {
         hasBeenHit = FALSE;
-        struct MovementVector3D * movementVector;
-        Calculate2DVector(movementVector, game.arrowAngle, 1);// dummy value at the moment
-        game.ball.motion = *movementVector;
+    //    struct MovementVector3D * movementVector;
+        Calculate2DVector(&game.ball.motion, game.arrowAngle, 1);// dummy value at the moment
+     //   game.ball.motion = *movementVector;
         game.ball.hasStopped = FALSE;
     }
     if(game.ball.hasStopped == FALSE)
     {
         ApplyMovement(&game.ball.position, game.ball.motion);
-        ApplyFriction(&game.ball.motion, game.level.rollingResistance);
+
+        //-- Friction
+
+        // This requires some explanation. Acceleration is the change in speed divided by time and
+        // speed is change in distance divided by time. As such, acceleration is the change in
+        // distance divided by time, divided by time.
+
+        // So, to adjust the friction deceleration to the correct value for the current frame rate,
+        // we need to divide by the FPS twice - which is the same as dividing by the frame rate
+        // squared.
+
+        game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance);
     }
 
     if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))
@@ -113,7 +124,6 @@ void Update()
     }
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
-        freeLevel(&game.level);
         exit(0);
     }
     if(IsKeyDown(LEFT_ARROW_KEY, TRUE))

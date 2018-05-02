@@ -116,7 +116,7 @@ void hardcodedLevel (struct Level *level) {
 
     //-- Default values for the physical attributes
 
-    level->rollingResistance = 0.05;
+    level->rollingResistance = 5.0;
     level->coefficientOfRestitution = 0.67;
 
     //-- Position of the hole relative to the course
