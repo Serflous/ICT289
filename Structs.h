@@ -19,6 +19,11 @@ struct Point3D
     float x, y, z;
 };
 
+struct Point2D
+{
+    float x, y;
+};
+
 struct Vector3D {
 	GLfloat x, y, z;
 };

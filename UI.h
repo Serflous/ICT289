@@ -6,6 +6,7 @@
 #include "Constants.h"
 #include "Bool.h"
 #include <math.h>
+#include <stdio.h>
 
 float barPercentage;
 
