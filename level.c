@@ -128,15 +128,15 @@ void hardcodedLevel (struct Level *level) {
     //-- Position of the camera relative to the world, plus it's initial angle
 
     level->cameraPosition.x = 0;
-    level->cameraPosition.y = 100;
-    level->cameraPosition.z = 450;
+    level->cameraPosition.y = 400;
+    level->cameraPosition.z = 500;
     level->cameraStartingAngle = 45.0;
 
     //-- Ball starting position relative to the course, plus the angle it's "facing".
 
     level->ballStartingPosition.x = 60;
-    level->ballStartingPosition.y = 0;
-    level->ballStartingPosition.y = 30;
+    level->ballStartingPosition.y = BALL_RADIUS_PX;
+    level->ballStartingPosition.z = 30;
     level->ballStartingAngle = 0.0;
 
     //-- Position of the level model relative to the world
@@ -256,8 +256,8 @@ void drawLevel (struct Level *level) {
 
     glColor3f(0, 0, 0);
     glTranslatef(level->holePosition.x, level->holePosition.y, level->holePosition.z);
-
     drawDisc(HOLE_RADIUS_PX, HOLE_DETAIL_LEVEL);
+
     glPopMatrix();
 }
 

@@ -4,6 +4,7 @@
 #include "Constants.h"
 #include "Input.h"
 #include "ConsoleIO.h"
+#include "ObjectRendering.h"
 
 void initialiseGameState();
 
@@ -59,9 +60,14 @@ void initialiseGameState() {
     game.numberOfStrokes = 0;
     game.gameOver = FALSE;
 
-    game.camera.position.x = 0;
-    game.camera.position.y = 400;
-    game.camera.position.z = 650;
+    game.ball.position.x = game.level.ballStartingPosition.x + game.level.position.x;
+    game.ball.position.y = game.level.ballStartingPosition.y + game.level.position.y;
+    game.ball.position.z = game.level.ballStartingPosition.z + game.level.position.z;
+
+    game.camera.position.x = game.level.cameraPosition.x;
+    game.camera.position.y = game.level.cameraPosition.y;
+    game.camera.position.z = game.level.cameraPosition.z;
+
     game.camera.up.x = 0;
     game.camera.up.y = 1;
     game.camera.up.z = 0;
@@ -158,11 +164,13 @@ void DisplayCallback()
     //-- Draw 3D
 
     struct Point3D groundPosition = {0, game.level.position.y - 2, 0};
+    struct Colour ballColour = {1, 1, 1};
+    struct Colour arrowColour = {1, 1, 0};
+
     drawGround(groundPosition);
-
-    //-- Draw the level
-
-    drawLevel (&(game.level));
+    drawLevel (&game.level);
+    drawBall(game.ball.position, ballColour);
+    drawArrow(game.ball.position, game.arrowAngle, arrowColour);
 
     glPopAttrib();
 

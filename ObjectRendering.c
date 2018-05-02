@@ -25,6 +25,7 @@ void drawBall (struct Point3D position, struct Colour colour) {
     glPushMatrix();
     glTranslatef(position.x, position.y, position.z);
     glutSolidSphere(BALL_RADIUS_PX, BALL_DETAIL_LEVEL, BALL_DETAIL_LEVEL);
+
     glPopMatrix();
 }
 
@@ -42,7 +43,7 @@ void drawArrow (struct Point3D ballPosition, float angle, struct Colour colour) 
     glTranslatef(ballPosition.x, ballPosition.y, ballPosition.z);
     glRotatef(angle, 0, 1, 0);
     glTranslatef(0, 0, 5);
-    glutSolidCone(0.8, 12, 10, 10);
+    glutSolidCone(1.5, 20, 10, 10);
 
     glPopMatrix();
 }
