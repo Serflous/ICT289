@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "ConsoleIO.h"
 #include "ObjectRendering.h"
+#include "UI.h"
 
 void initialiseGameState();
 
@@ -35,8 +36,7 @@ int main(int argc, char ** argv)
 {
     initialiseGameState();
 
-   // userPreferencesAndInstructions(&(game.level));
-
+    //userPreferencesAndInstructions(&(game.level));
     InitializeGLUT(&argc, argv);
 
     //-- Initialise input callbacks
@@ -87,6 +87,20 @@ void Update()
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     game.ellapsedTime = currentTime - game.previousTime;
     game.previousTime = currentTime;
+
+    if(hasBeenHit == TRUE)
+    {
+        hasBeenHit = FALSE;
+        struct MovementVector3D * movementVector;
+        Calculate2DVector(movementVector, game.arrowAngle, 1);// dummy value at the moment
+        game.ball.motion = *movementVector;
+        game.ball.hasStopped = FALSE;
+    }
+    if(game.ball.hasStopped == FALSE)
+    {
+        ApplyMovement(&game.ball.position, game.ball.motion);
+        ApplyFriction(&game.ball.motion, game.level.rollingResistance);
+    }
 
     if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))
     {

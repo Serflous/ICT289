@@ -9,6 +9,8 @@
 #include <stdio.h>
 
 float barPercentage;
+extern float lastBarPercentage;
+extern bool hasBeenHit;
 
 void InitializeUI();
 void UpdateUI(int deltaTime);
