@@ -48,6 +48,7 @@ int main(int argc, char ** argv)
 
     glutMainLoop();
 
+    freeLevel(&game.level);
     return 0;
 }
 
@@ -98,6 +99,7 @@ void Update()
     }
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
+        freeLevel(&game.level);
         exit(0);
     }
     if(IsKeyDown(LEFT_ARROW_KEY, TRUE))
