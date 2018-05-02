@@ -1,7 +1,7 @@
 #ifndef INPUT_H
 
 #include "Bool.h"
-#define TOTAL_KEYS 235
+#define TOTAL_KEYS 363
 
 extern bool keys[TOTAL_KEYS];
 

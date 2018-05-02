@@ -96,10 +96,17 @@ void Update()
     {
         game.camera.angle -= CAMERA_ROTATION_SPEED  / 1000.0 * game.ellapsedTime;
     }
-
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
         exit(0);
+    }
+    if(IsKeyDown(LEFT_ARROW_KEY, TRUE))
+    {
+        game.arrowAngle += ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
+    }
+    if(IsKeyDown(RIGHT_ARROW_KEY, TRUE))
+    {
+        game.arrowAngle -= ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
     }
     UpdateUI(game.ellapsedTime);
     glutPostRedisplay();

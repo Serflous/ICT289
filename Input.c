@@ -22,22 +22,22 @@ void NormalKeyUpCallback(char key, int x, int y)
 
 void SpecialKeyDownCallback(int key, int x, int y)
 {
-    keys[key + 127] = TRUE;
+    keys[key + 255] = TRUE;
 }
 
 void SpecialKeyUpCallback(int key, int x, int y)
 {
-    keys[key + 127] = FALSE;
+    keys[key + 255] = FALSE;
 }
 
 bool IsKeyDown(int key, bool isSpecial)
 {
-    key = isSpecial == FALSE ? key : key + 127;
+    key = isSpecial == FALSE ? key : key + 255;
     return keys[key];
 }
 
 bool IsKeyUp(int key, bool isSpecial)
 {
-    key = isSpecial == FALSE ? key : key + 127;
+    key = isSpecial == FALSE ? key : key + 255;
     return !keys[key];
 }

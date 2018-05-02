@@ -2,6 +2,8 @@
 #define CONSTANTS_H_INCLUDED
 
 #define ESCAPE_KEY 27
+#define LEFT_ARROW_KEY 100
+#define RIGHT_ARROW_KEY 102
 
 #define PIXELS_PER_CM 1.0
 #define PIXELS_PER_METER (PIXELS_PER_CM * 100.0)
@@ -22,6 +24,7 @@
 
 #define BAR_SPEED 0.01f
 #define CAMERA_ROTATION_SPEED 60.0
+#define ARROW_ROTATION_SPEED 40.0
 
 extern const int INIT_WINDOW_SIZE_X;
 extern const int INIT_WINDOW_SIZE_Y;
