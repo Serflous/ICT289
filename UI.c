@@ -7,6 +7,7 @@ struct Texture texUIBarCorner;
 struct Texture texUIBarLine;
 float barPercentage;
 float lastBarPercentage;
+bool hasBeenHit;
 bool spaceDown;
 
 void InitializeUI()
@@ -19,6 +20,7 @@ void InitializeUI()
     barPercentage = 0;
     lastBarPercentage = 0;
     spaceDown = FALSE;
+    hasBeenHit = FALSE;
 }
 
 void DrawString(const char * string, struct Point2D position, struct Point3D colour, struct Point3D scale)
@@ -219,6 +221,7 @@ void UpdateUI(int deltaTime)
     {
         spaceDown = FALSE;
         lastBarPercentage = barPercentage;
+        hasBeenHit = TRUE;
     }
     if(spaceDown == TRUE)
     {
