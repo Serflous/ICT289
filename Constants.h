@@ -15,12 +15,13 @@
 #define BALL_DETAIL_LEVEL 12
 #define HOLE_DETAIL_LEVEL 24
 
-#define TARGET_FPS 120.0
+#define TARGET_FPS 60.0
 
 #define FRICTION 5.0
 #define SPEED_LOST_ON_WALL_IMPACT 0.67
 
 #define BAR_SPEED 0.01f
+#define CAMERA_ROTATION_SPEED 60.0
 
 extern const int INIT_WINDOW_SIZE_X;
 extern const int INIT_WINDOW_SIZE_Y;

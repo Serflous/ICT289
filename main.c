@@ -21,7 +21,7 @@ struct GameState {
     float   arrowAngle;
     float   power;
     int     powerDirection;
-    int     ellapsedTime;
+    int     ellapsedTime, previousTime;
     int     numberOfStrokes;
     bool    gameOver;
 };
@@ -34,7 +34,7 @@ int main(int argc, char ** argv)
 {
     initialiseGameState();
 
-    userPreferencesAndInstructions(&(game.level));
+   // userPreferencesAndInstructions(&(game.level));
 
     InitializeGLUT(&argc, argv);
 
@@ -55,7 +55,7 @@ void initialiseGameState() {
     game.arrowAngle = 0.0;
     game.power = 0.0;
     game.powerDirection = 1;
-    game.ellapsedTime = 0;
+    game.ellapsedTime = game.previousTime = 0;
     game.numberOfStrokes = 0;
     game.gameOver = FALSE;
 
@@ -68,7 +68,7 @@ void initialiseGameState() {
     game.camera.forward.x = 0;
     game.camera.forward.y = -1;
     game.camera.forward.z = 0;
-    game.camera.angle = 0;
+    game.camera.angle = game.level.cameraStartingAngle;
 }
 
 //-- Glut ----------
@@ -76,14 +76,27 @@ void initialiseGameState() {
 void Update()
 {
     glutTimerFunc(1000/TARGET_FPS, Update, 0);
+
+    int currentTime = glutGet(GLUT_ELAPSED_TIME);
+    game.ellapsedTime = currentTime - game.previousTime;
+    game.previousTime = currentTime;
+
+    if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))
+    {
+        game.camera.angle += CAMERA_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
+    }
+
+    if (IsKeyDown((int)'s', FALSE) || IsKeyDown((int)'S', FALSE))
+    {
+        game.camera.angle -= CAMERA_ROTATION_SPEED  / 1000.0 * game.ellapsedTime;
+    }
+
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
         exit(0);
     }
     UpdateUI();
     glutPostRedisplay();
-
-    game.camera.angle += 0.1;
 }
 
 void InitializeGLUT(int * argc, char ** argv)
@@ -107,12 +120,16 @@ void InitializeGLUT(int * argc, char ** argv)
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
-   // previousTime = glutGet(GLUT_ELAPSED_TIME);
+    game.previousTime = glutGet(GLUT_ELAPSED_TIME);
 
-   // balloonTex = LoadTexture("res/balloon.raw", 512, 512, 4);
-
-   glutTimerFunc(1000/TARGET_FPS, Update, 0);
+    glutTimerFunc(1000/TARGET_FPS, Update, 0);
     InitializeUI();
+
+    //-- Set the GLUT window to be the one in focus
+
+#ifdef _WIN32
+   SetForegroundWindow(FindWindowA(NULL, WINDOW_TITLE));
+#endif // _WIN32
 }
 
 void placeCamera () {

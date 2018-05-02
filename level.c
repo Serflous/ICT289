@@ -130,7 +130,7 @@ void hardcodedLevel (struct Level *level) {
     level->cameraPosition.x = 0;
     level->cameraPosition.y = 100;
     level->cameraPosition.z = 450;
-    level->cameraStartingAngle = 0.0;
+    level->cameraStartingAngle = 45.0;
 
     //-- Ball starting position relative to the course, plus the angle it's "facing".
 
