@@ -108,7 +108,8 @@ void Update()
 void InitializeGLUT(int * argc, char ** argv)
 {
     glutInit(argc, argv);
-    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH); // Initialize display modes, with RGBA, double buffering, and a depth buffer.
+    glutSetOption(GLUT_MULTISAMPLE, 8);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE); // Initialize display modes, with RGBA, double buffering, and a depth buffer, and multi sampling.
     glutInitWindowPosition(INIT_WINDOW_POS_X, INIT_WINDOW_POS_Y);
     glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
     glutCreateWindow(WINDOW_TITLE);
