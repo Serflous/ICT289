@@ -126,6 +126,8 @@ void drawGround (GLfloat radius) {
 
 
     glColor3f(0, 0.5, 0);
+    glPushAttrib(GL_ENABLE_BIT);
+    glDisable(GL_TEXTURE_2D);
     glPushMatrix();
 
     //-- Note below: We need to add a tiny amount to the Y so the hole sits
@@ -145,6 +147,7 @@ void drawGround (GLfloat radius) {
     glEnd();
 
 	glPopMatrix();
+	glPopAttrib();
 }
 
 void DisplayCallback()
