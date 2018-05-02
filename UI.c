@@ -6,6 +6,7 @@ struct Texture texPowerBarFill;
 struct Texture texUIBarCorner;
 struct Texture texUIBarLine;
 float barPercentage;
+float lastBarPercentage;
 bool spaceDown;
 
 void InitializeUI()
@@ -16,7 +17,25 @@ void InitializeUI()
     texUIBarCorner = LoadTexture("res/UI_Frame_Corner.raw", 32, 32, 4);
     texUIBarLine = LoadTexture("res/UI_Frame_Line.raw", 1, 32, 4);
     barPercentage = 0;
+    lastBarPercentage = 0;
     spaceDown = FALSE;
+}
+
+void DrawString(const char * string, struct Point2D position, struct Point3D colour, struct Point3D scale)
+{
+    glPushAttrib(GL_ENABLE_BIT);
+    glDisable(GL_TEXTURE);
+    glPushMatrix();
+    glLoadIdentity();
+    glTranslatef(position.x, position.y, 0);
+    glScalef(scale.x, scale.y, scale.z);
+    glRotatef(180, 1, 0, 0);
+
+    glColor4f(colour.x, colour.y, colour.z, 1.0f);
+    glutStrokeString(GLUT_STROKE_ROMAN, string);
+
+    glPopMatrix();
+    glPopAttrib();
 }
 
 void DrawUI()
@@ -158,6 +177,33 @@ void DrawUI()
                 glVertex3f(powerBarStartX + texPowerBarFill.texWidth, powerBarStartY + barHeight, 0);
             glEnd();
         glPopMatrix();
+        struct Point2D powerTextPos, courseParPos, playerMovesTakenPos;
+        powerTextPos.x = windowWidth - (uiBarWidth / 3);
+        powerTextPos.y = powerBarStartY + texPowerBar.texHeight + 20;
+        courseParPos.x = windowWidth - uiBarWidth + 5;
+        courseParPos.y = powerBarStartY + texPowerBar.texHeight + 50;
+        playerMovesTakenPos.x = windowWidth - uiBarWidth + 5;
+        playerMovesTakenPos.y = powerBarStartY + texPowerBar.texHeight + 90;
+        struct Point3D colour;
+        colour.x = 0;
+        colour.y = 0;
+        colour.z = 0;
+        struct Point3D scale;
+        scale.x = 0.1f;
+        scale.y = 0.1f;
+        scale.z = 0.1f;
+        char * powerTextBuffer[50];
+        char * courseParTextBuffer[50];
+        char * playerMovesTakenTextBuffer[50];
+        snprintf(powerTextBuffer, sizeof(powerTextBuffer) - 1, "Power: %.2f", lastBarPercentage);
+        snprintf(courseParTextBuffer, sizeof(courseParTextBuffer) - 1, "Course Par: %i", 3);
+        snprintf(playerMovesTakenTextBuffer, sizeof(playerMovesTakenTextBuffer) - 1, "Moves Taken: %i", 0);
+        DrawString(powerTextBuffer, powerTextPos, colour, scale);
+        scale.x = 0.2f;
+        scale.y = 0.2f;
+        scale.z = 0.2f;
+        DrawString(courseParTextBuffer, courseParPos, colour, scale);
+        DrawString(playerMovesTakenTextBuffer, playerMovesTakenPos, colour, scale);
         glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 }
@@ -172,7 +218,7 @@ void UpdateUI()
     if(IsKeyUp(' ', FALSE) && spaceDown == TRUE)
     {
         spaceDown = FALSE;
-        printf("Power: %f\n", barPercentage);
+        lastBarPercentage = barPercentage;
     }
     if(spaceDown == TRUE)
     {
@@ -188,5 +234,12 @@ void UpdateUI()
 
 float GetBarSpeed()
 {
-    return 0.1f * powf(barPercentage, 1.4f);
+    if(barPercentage < 0.3)
+    {
+        return 0.013f;
+    }
+    else
+    {
+        return 0.07f * powf(barPercentage, 1.4f);
+    }
 }
