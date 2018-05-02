@@ -59,6 +59,7 @@ struct Camera
     struct Point3D position;
     struct Point3D forward;
     struct Point3D up;
+    float angle;
 };
 
 struct Ball {

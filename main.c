@@ -2,9 +2,15 @@
 #include <stdlib.h>
 
 #include "Constants.h"
-#include "Display.h"
 #include "Input.h"
 #include "ConsoleIO.h"
+
+void initialiseGameState();
+
+void InitializeGLUT(int * argc, char ** argv);
+void DisplayCallback();
+void ReshapeCallback(int x, int y);
+void Update();
 
 struct GameState {
 
@@ -24,14 +30,10 @@ struct GameState {
 
 struct GameState game;
 
-void normalKeysCallback (unsigned char key, int x, int y);
-void specialKeysCallback (int key, int x, int y);
-void initialiseGameState();
-
 int main(int argc, char ** argv)
 {
     initialiseGameState();
-    userPreferencesAndInstructions(&game.level);
+   // userPreferencesAndInstructions(&game.level);
 
     InitializeGLUT(&argc, argv);
 
@@ -55,4 +57,129 @@ void initialiseGameState() {
     game.ellapsedTime = 0;
     game.numberOfStrokes = 0;
     game.gameOver = FALSE;
+
+    game.camera.position.x = 0;
+    game.camera.position.y = 100;
+    game.camera.position.z = 450;
+    game.camera.up.x = 0;
+    game.camera.up.y = 1;
+    game.camera.up.z = 0;
+    game.camera.forward.x = 0;
+    game.camera.forward.y = -1;
+    game.camera.forward.z = 0;
+    game.camera.angle = 0;
+
 }
+
+//-- Glut ----------
+
+void Update()
+{
+
+    if(IsKeyDown(ESCAPE_KEY, FALSE))
+    {
+        exit(0);
+    }
+    UpdateUI();
+
+    glutPostRedisplay();
+}
+
+void InitializeGLUT(int * argc, char ** argv)
+{
+    glutInit(argc, argv);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH); // Initialize display modes, with RGBA, double buffering, and a depth buffer.
+    glutInitWindowPosition(INIT_WINDOW_POS_X, INIT_WINDOW_POS_Y);
+    glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
+    glutCreateWindow(WINDOW_TITLE);
+    glutDisplayFunc(DisplayCallback);
+    glutIdleFunc(Update);
+    glutReshapeFunc(ReshapeCallback);
+    glClearColor(0, 0, 0, 1.0f);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //-- Backface culling
+
+    glEnable(GL_CULL_FACE);
+    glFrontFace(GL_CCW);
+    glCullFace(GL_BACK);
+
+   // glutFullScreen();
+
+   // balloonTex = LoadTexture("res/balloon.raw", 512, 512, 4);
+    InitializeUI();
+}
+
+void placeCamera () {
+    gluLookAt(game.camera.position.x, game.camera.position.y, game.camera.position.z,
+              game.camera.forward.x, game.camera.forward.y, game.camera.forward.z,
+              game.camera.up.x, game.camera.up.y, game.camera.up.z);
+
+
+    printf ("%.2f %.2f %.2f - %.2f %.2f %.2f - %.2f %.2f %.2f\n", game.camera.position.x, game.camera.position.y, game.camera.position.z,
+              game.camera.forward.x, game.camera.forward.y, game.camera.forward.z,
+              game.camera.up.x, game.camera.up.y, game.camera.up.z);
+
+   //         gluLookAt(0, 100, 450, 0, 1, 0, 0, -1, 0);
+
+
+
+    glRotatef(game.camera.angle, 0, 1, 0);
+}
+
+void drawGround (GLfloat radius) {
+
+
+    glColor3f(0, 0.5, 0);
+    glPushMatrix();
+
+    //-- Note below: We need to add a tiny amount to the Y so the hole sits
+    //-- on top of the course surface
+
+    glTranslatef(0, game.level.position.y - 2, 0);
+
+    glBegin(GL_POLYGON);
+
+    //-- Draw a disk by stepping around a circle and building a polygon in our wake
+
+    for (int i = 360; i > 0; i -= (360 / 100)) {
+      float angleInRadians = i * (M_PI / 180.0);
+      glVertex3f(cos(angleInRadians) * radius, 0, sin(angleInRadians) * radius);
+    }
+
+    glEnd();
+
+	glPopMatrix();
+}
+
+void DisplayCallback()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //-- Place camera
+
+    placeCamera();
+
+    //-- Draw 3D
+
+    drawGround(250);
+
+    //-- Draw 2D / UI
+
+    DrawUI();
+    glutSwapBuffers();
+}
+
+void ReshapeCallback(int x, int y)
+{
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glViewport(0, 0, x, y);
+    gluPerspective(PERSPECTIVE_FOV, x/y, PERSPECTIVE_NEAR, PERSPECTIVE_FAR);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+
+

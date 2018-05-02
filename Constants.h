@@ -22,4 +22,13 @@
 
 #define BAR_SPEED 0.01f
 
+extern const int INIT_WINDOW_SIZE_X;
+extern const int INIT_WINDOW_SIZE_Y;
+extern const int INIT_WINDOW_POS_X;
+extern const int INIT_WINDOW_POS_Y;
+extern const char * WINDOW_TITLE;
+extern const int PERSPECTIVE_FOV;
+extern const float PERSPECTIVE_NEAR;
+extern const float PERSPECTIVE_FAR;
+
 #endif // CONSTANTS_H_INCLUDED

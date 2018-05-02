@@ -25,6 +25,6 @@ extern const float PERSPECTIVE_FAR;
 void InitializeGLUT(int * argc, char ** argv);
 void DisplayCallback();
 void ReshapeCallback(int x, int y);
-void Update();
+void Update2();
 
 #endif // DISPLAY_H

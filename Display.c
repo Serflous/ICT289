@@ -59,7 +59,7 @@ void ReshapeCallback(int x, int y)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void Update()
+void Update2()
 {
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {

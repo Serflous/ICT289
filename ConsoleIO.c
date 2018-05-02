@@ -1,4 +1,6 @@
 #include "ConsoleIO.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 //-- Text/console functions ----------
 
@@ -18,7 +20,7 @@ int getMenuChoice () {
 
     } while (input != '1' && input != '2' && input != '3');
 
-    return (int)input - '0';        // Apparently this works even with unicode
+    return (int)(input - '0');        // Apparently this works even with unicode
 }
 
 void userPreferencesAndInstructions (struct Level *level) {
