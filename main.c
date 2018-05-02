@@ -33,7 +33,8 @@ struct GameState game;
 int main(int argc, char ** argv)
 {
     initialiseGameState();
-   // userPreferencesAndInstructions(&game.level);
+
+    userPreferencesAndInstructions(&(game.level));
 
     InitializeGLUT(&argc, argv);
 
@@ -50,7 +51,7 @@ int main(int argc, char ** argv)
 }
 
 void initialiseGameState() {
-    hardcodedLevel(&game.level);
+    hardcodedLevel(&(game.level));
     game.arrowAngle = 0.0;
     game.power = 0.0;
     game.powerDirection = 1;
@@ -59,7 +60,7 @@ void initialiseGameState() {
     game.gameOver = FALSE;
 
     game.camera.position.x = 0;
-    game.camera.position.y = 100;
+    game.camera.position.y = 400;
     game.camera.position.z = 650;
     game.camera.up.x = 0;
     game.camera.up.y = 1;
@@ -80,8 +81,9 @@ void Update()
         exit(0);
     }
     UpdateUI();
-
     glutPostRedisplay();
+
+    game.camera.angle += 0.1;
 }
 
 void InitializeGLUT(int * argc, char ** argv)
@@ -122,34 +124,6 @@ void placeCamera () {
     glRotatef(game.camera.angle, 0, 1, 0);
 }
 
-void drawGround (GLfloat radius) {
-
-
-    glColor3f(0, 0.5, 0);
-    glPushAttrib(GL_ENABLE_BIT);
-    glDisable(GL_TEXTURE_2D);
-    glPushMatrix();
-
-    //-- Note below: We need to add a tiny amount to the Y so the hole sits
-    //-- on top of the course surface
-
-    glTranslatef(0, game.level.position.y - 2, 0);
-
-    glBegin(GL_POLYGON);
-
-    //-- Draw a disk by stepping around a circle and building a polygon in our wake
-
-    for (int i = 360; i > 0; i -= (360 / 100)) {
-      float angleInRadians = i * (M_PI / 180.0);
-      glVertex3f(cos(angleInRadians) * radius, 0, sin(angleInRadians) * radius);
-    }
-
-    glEnd();
-
-	glPopMatrix();
-	glPopAttrib();
-}
-
 void DisplayCallback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -157,13 +131,23 @@ void DisplayCallback()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
+    glPushAttrib(GL_ENABLE_BIT);
+    glDisable(GL_TEXTURE_2D);
+
     //-- Place camera
 
     placeCamera();
 
     //-- Draw 3D
 
-    drawGround(250);
+    struct Point3D groundPosition = {0, game.level.position.y - 2, 0};
+    drawGround(groundPosition);
+
+    //-- Draw the level
+
+    drawLevel (&(game.level));
+
+    glPopAttrib();
 
     //-- Draw 2D / UI
 
@@ -179,6 +163,4 @@ void ReshapeCallback(int x, int y)
     gluPerspective(PERSPECTIVE_FOV, x/y, PERSPECTIVE_NEAR, PERSPECTIVE_FAR);
     glMatrixMode(GL_MODELVIEW);
 }
-
-
 

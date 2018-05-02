@@ -1,5 +1,6 @@
 
 #include "level.h"
+#include "ObjectRendering.h"
 #include "Constants.h"
 
 //-- The following creates a hard coded level for testing. Loading a level from a file
@@ -199,7 +200,6 @@ void hardcodedLevel (struct Level *level) {
             level->topWallPolys[i].vertexArrayIndices[j] = hardcodedTopWallPolys[i].vertexArrayIndices[j];
         }
     }
-
 }
 
 //-- A helper function that draws a four sided polygon from four indices into an array of vertices.
@@ -254,8 +254,10 @@ void drawLevel (struct Level *level) {
 
     //-- Draw the hole
 
-    drawHole(level->holePosition.x, level->holePosition.y, level->holePosition.z, HOLE_RADIUS_PX);
+    glColor3f(0, 0, 0);
+    glTranslatef(level->holePosition.x, level->holePosition.y, level->holePosition.z);
 
+    drawDisc(HOLE_RADIUS_PX, HOLE_DETAIL_LEVEL);
     glPopMatrix();
 }
 
