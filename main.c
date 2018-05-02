@@ -26,7 +26,7 @@ struct GameState {
     int     powerDirection;
     int     ellapsedTime, previousTime;
     int     numberOfStrokes;
-    bool    gameOver;
+    bool    gameOver, ballInHole;
 };
 
 //-- Global variables
@@ -60,6 +60,7 @@ void initialiseGameState() {
     game.ellapsedTime = game.previousTime = 0;
     game.numberOfStrokes = 0;
     game.gameOver = FALSE;
+    game.ballInHole = FALSE;
 
     game.ball.position.x = game.level.ballStartingPosition.x + game.level.position.x;
     game.ball.position.y = game.level.ballStartingPosition.y + game.level.position.y;
@@ -79,15 +80,40 @@ void initialiseGameState() {
     game.camera.angle = game.level.cameraStartingAngle;
 }
 
+bool ballHitsHole () {
+
+    float holeX = game.level.holePosition.x + game.level.position.x;
+    float holeZ = game.level.holePosition.z + game.level.position.z;
+
+    float xDistance = game.ball.position.x - holeX;
+    float zDistance = game.ball.position.z - holeZ;
+
+    float totalDistance = sqrt((xDistance * xDistance) + (zDistance * zDistance));
+
+    return (totalDistance <= HOLE_RADIUS_PX / 2);
+}
+
 //-- Glut ----------
 
 void Update()
 {
+    static gameOverCountdown = 1000;
+
     glutTimerFunc(1000/TARGET_FPS, Update, 0);
 
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     game.ellapsedTime = currentTime - game.previousTime;
     game.previousTime = currentTime;
+
+    if (game.ballInHole) {
+        gameOverCountdown -= game.ellapsedTime;
+
+        if (gameOverCountdown <= 0) {
+            exit(0);
+        }
+
+        return;
+    }
 
     if(hasBeenHit == TRUE)
     {
@@ -100,6 +126,10 @@ void Update()
     if(game.ball.hasStopped == FALSE)
     {
         ApplyMovement(&game.ball.position, game.ball.motion);
+
+        if (ballHitsHole()) {
+            game.ballInHole = TRUE;
+        }
 
         //-- Friction
 
@@ -127,13 +157,16 @@ void Update()
     {
         exit(0);
     }
-    if(IsKeyDown(LEFT_ARROW_KEY, TRUE))
-    {
-        game.arrowAngle += ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
-    }
-    if(IsKeyDown(RIGHT_ARROW_KEY, TRUE))
-    {
-        game.arrowAngle -= ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
+
+    if (game.ball.hasStopped) {
+        if(IsKeyDown(LEFT_ARROW_KEY, TRUE))
+        {
+            game.arrowAngle += ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
+        }
+        if(IsKeyDown(RIGHT_ARROW_KEY, TRUE))
+        {
+            game.arrowAngle -= ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
+        }
     }
     UpdateUI(game.ellapsedTime);
     glutPostRedisplay();
@@ -204,8 +237,14 @@ void DisplayCallback()
 
     drawGround(groundPosition);
     drawLevel (&game.level);
-    drawBall(game.ball.position, ballColour);
-    drawArrow(game.ball.position, game.arrowAngle, arrowColour);
+
+    if (!game.ballInHole) {
+        drawBall(game.ball.position, ballColour);
+
+        if (game.ball.hasStopped) {
+            drawArrow(game.ball.position, game.arrowAngle, arrowColour);
+        }
+    }
 
     glPopAttrib();
 
