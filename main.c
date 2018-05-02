@@ -111,7 +111,7 @@ void Update()
         // we need to divide by the FPS twice - which is the same as dividing by the frame rate
         // squared.
 
-        game.ball.hasStopped = ApplyFriction(&game.ball.motion, (game.level.rollingResistance * game.power * (1-lastBarPercentage)) / (game.ellapsedTime * game.ellapsedTime));
+        game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance / (game.ellapsedTime * game.ellapsedTime));
     }
 
     if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))
