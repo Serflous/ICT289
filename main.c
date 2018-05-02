@@ -60,7 +60,7 @@ void initialiseGameState() {
 
     game.camera.position.x = 0;
     game.camera.position.y = 100;
-    game.camera.position.z = 450;
+    game.camera.position.z = 650;
     game.camera.up.x = 0;
     game.camera.up.y = 1;
     game.camera.up.z = 0;
@@ -68,14 +68,13 @@ void initialiseGameState() {
     game.camera.forward.y = -1;
     game.camera.forward.z = 0;
     game.camera.angle = 0;
-
 }
 
 //-- Glut ----------
 
 void Update()
 {
-
+    glutTimerFunc(1000/TARGET_FPS, Update, 0);
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
         exit(0);
@@ -93,38 +92,32 @@ void InitializeGLUT(int * argc, char ** argv)
     glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
     glutCreateWindow(WINDOW_TITLE);
     glutDisplayFunc(DisplayCallback);
-    glutIdleFunc(Update);
     glutReshapeFunc(ReshapeCallback);
     glClearColor(0, 0, 0, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     //-- Backface culling
 
     glEnable(GL_CULL_FACE);
     glFrontFace(GL_CCW);
     glCullFace(GL_BACK);
 
-   // glutFullScreen();
+   // previousTime = glutGet(GLUT_ELAPSED_TIME);
 
    // balloonTex = LoadTexture("res/balloon.raw", 512, 512, 4);
+
+   glutTimerFunc(1000/TARGET_FPS, Update, 0);
     InitializeUI();
 }
 
 void placeCamera () {
+
     gluLookAt(game.camera.position.x, game.camera.position.y, game.camera.position.z,
               game.camera.forward.x, game.camera.forward.y, game.camera.forward.z,
               game.camera.up.x, game.camera.up.y, game.camera.up.z);
-
-
-    printf ("%.2f %.2f %.2f - %.2f %.2f %.2f - %.2f %.2f %.2f\n", game.camera.position.x, game.camera.position.y, game.camera.position.z,
-              game.camera.forward.x, game.camera.forward.y, game.camera.forward.z,
-              game.camera.up.x, game.camera.up.y, game.camera.up.z);
-
-   //         gluLookAt(0, 100, 450, 0, 1, 0, 0, -1, 0);
-
-
 
     glRotatef(game.camera.angle, 0, 1, 0);
 }
@@ -157,6 +150,9 @@ void drawGround (GLfloat radius) {
 void DisplayCallback()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
     //-- Place camera
 
