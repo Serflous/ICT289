@@ -31,7 +31,7 @@ void DrawString(const char * string, struct Point2D position, struct Point3D col
     glDisable(GL_TEXTURE);
     glPushMatrix();
     glLoadIdentity();
-    glTranslatef(position.x, position.y, 0);
+    glTranslatef(position.x, position.y, -1);
     glScalef(scale.x, scale.y, scale.z);
     glRotatef(180, 1, 0, 0);
 
@@ -212,7 +212,7 @@ void DrawUI()
     glPopMatrix();
 }
 
-void DrawSplash()
+void DrawSplash(int turns)
 {
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH); // Window Width
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT); // Window Height
@@ -235,6 +235,23 @@ void DrawSplash()
                 glVertex3f(windowWidth, 0, 0);
             glEnd();
         glPopMatrix();
+        if(turns > 0)
+        {
+            struct Point2D position;
+            position.x = windowWidth / 4;
+            position.y = windowHeight - 100;
+            struct Point3D colour;
+            colour.x = 0;
+            colour.y = 0;
+            colour.z = 0;
+            struct Point3D scale;
+            scale.x = 0.2f;
+            scale.y = 0.2f;
+            scale.z = 0.2f;
+            char * turnsBuffer[50];
+            snprintf(turnsBuffer, sizeof(turnsBuffer) - 1, "Moves Taken: %i", turns);
+            DrawString(turnsBuffer, position, colour, scale);
+        }
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 }
@@ -270,6 +287,10 @@ float GetBarSpeed(int deltaTime)
     if(barPercentage < 0.3)
     {
         return 0.011f * newDelta;
+    }
+    else if (barPercentage > 0.95)
+    {
+        return 0.001f * newDelta;
     }
     else
     {

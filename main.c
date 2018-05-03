@@ -126,6 +126,7 @@ void Update()
         Calculate2DVector(&game.ball.motion, game.arrowAngle, game.power * lastBarPercentage); // mag based on power
      //   game.ball.motion = *movementVector;
         game.ball.hasStopped = FALSE;
+        game.numberOfStrokes++;
     }
     if(game.ball.hasStopped == FALSE)
     {
@@ -264,7 +265,7 @@ void DisplayCallback()
     }
     else
     {
-        DrawSplash();
+        DrawSplash(game.numberOfStrokes);
     }
     glutSwapBuffers();
 }
