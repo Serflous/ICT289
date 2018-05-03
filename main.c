@@ -14,6 +14,7 @@ void InitializeGLUT(int * argc, char ** argv);
 void DisplayCallback();
 void ReshapeCallback(int x, int y);
 void Update();
+void Quit();
 
 struct GameState {
 
@@ -32,10 +33,12 @@ struct GameState {
 //-- Global variables
 
 struct GameState game;
+bool isSplashing;
 
 int main(int argc, char ** argv)
 {
     initialiseGameState();
+    isSplashing = FALSE;
 
     //userPreferencesAndInstructions(&(game.level));
     InitializeGLUT(&argc, argv);
@@ -109,17 +112,18 @@ void Update()
         gameOverCountdown -= game.ellapsedTime;
 
         if (gameOverCountdown <= 0) {
-            exit(0);
+
         }
 
-        return;
+        //return;
     }
 
     if(hasBeenHit == TRUE)
     {
         hasBeenHit = FALSE;
     //    struct MovementVector3D * movementVector;
-        Calculate2DVector(&game.ball.motion, game.arrowAngle, 1);// dummy value at the moment
+        //Calculate2DVector(&game.ball.motion, game.arrowAngle, 1); //mag of 1 for testing
+        Calculate2DVector(&game.ball.motion, game.arrowAngle, game.power * lastBarPercentage); // mag based on power
      //   game.ball.motion = *movementVector;
         game.ball.hasStopped = FALSE;
     }
@@ -129,6 +133,8 @@ void Update()
 
         if (ballHitsHole()) {
             game.ballInHole = TRUE;
+            isSplashing = TRUE;
+            glutTimerFunc(5000, Quit, 0);
         }
 
         //-- Friction
@@ -141,7 +147,8 @@ void Update()
         // we need to divide by the FPS twice - which is the same as dividing by the frame rate
         // squared.
 
-        game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance / (game.ellapsedTime * game.ellapsedTime));
+        float fps = 1000.0 / game.ellapsedTime;
+        game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance / (fps * fps));
     }
 
     if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))
@@ -155,7 +162,8 @@ void Update()
     }
     if(IsKeyDown(ESCAPE_KEY, FALSE))
     {
-        exit(0);
+        isSplashing = TRUE;
+        glutTimerFunc(5000, Quit, 0);
     }
 
     if (game.ball.hasStopped) {
@@ -250,7 +258,14 @@ void DisplayCallback()
 
     //-- Draw 2D / UI
 
-    DrawUI();
+    if(isSplashing == FALSE)
+    {
+        DrawUI();
+    }
+    else
+    {
+        DrawSplash();
+    }
     glutSwapBuffers();
 }
 
@@ -261,5 +276,10 @@ void ReshapeCallback(int x, int y)
     glViewport(0, 0, x, y);
     gluPerspective(PERSPECTIVE_FOV, x/y, PERSPECTIVE_NEAR, PERSPECTIVE_FAR);
     glMatrixMode(GL_MODELVIEW);
+}
+
+void Quit()
+{
+    glutDestroyWindow(glutGetWindow());
 }
 

@@ -5,6 +5,7 @@ struct Texture texPowerBar;
 struct Texture texPowerBarFill;
 struct Texture texUIBarCorner;
 struct Texture texUIBarLine;
+struct Texture texSplashScreen;
 float barPercentage;
 float lastBarPercentage;
 bool hasBeenHit;
@@ -17,6 +18,7 @@ void InitializeUI()
     texPowerBarFill = LoadTexture("res/powerBarFill.raw", 16, 16, 4);
     texUIBarCorner = LoadTexture("res/UI_Frame_Corner.raw", 32, 32, 4);
     texUIBarLine = LoadTexture("res/UI_Frame_Line.raw", 1, 32, 4);
+    texSplashScreen = LoadTexture("res/SplashScreen.raw", 1024, 512, 4);
     barPercentage = 0;
     lastBarPercentage = 0;
     spaceDown = FALSE;
@@ -207,6 +209,33 @@ void DrawUI()
         DrawString(courseParTextBuffer, courseParPos, colour, scale);
         DrawString(playerMovesTakenTextBuffer, playerMovesTakenPos, colour, scale);
         glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+}
+
+void DrawSplash()
+{
+    int windowWidth = glutGet(GLUT_WINDOW_WIDTH); // Window Width
+    int windowHeight = glutGet(GLUT_WINDOW_HEIGHT); // Window Height
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+        glLoadIdentity();
+        glOrtho(0, windowWidth, windowHeight, 0, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+            glLoadIdentity();
+            glBindTexture(GL_TEXTURE_2D, texSplashScreen.texId);
+            glBegin(GL_QUADS);
+                glTexCoord2f(0, 0);
+                glVertex3f(0, 0, 0);
+                glTexCoord2f(0, 1);
+                glVertex3f(0, windowHeight, 0);
+                glTexCoord2f(1, 1);
+                glVertex3f(windowWidth, windowHeight, 0);
+                glTexCoord2f(1, 0);
+                glVertex3f(windowWidth, 0, 0);
+            glEnd();
+        glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
     glPopMatrix();
 }
 
