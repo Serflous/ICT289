@@ -98,10 +98,13 @@ bool ballHitsHole () {
 
 //-- Glut ----------
 
+void pauseAfterVictory () {
+    isSplashing = TRUE;
+    glutTimerFunc(5000, Quit, 0);
+}
+
 void Update()
 {
-    static gameOverCountdown = 1000;
-
     glutTimerFunc(1000/TARGET_FPS, Update, 0);
 
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
@@ -109,22 +112,15 @@ void Update()
     game.previousTime = currentTime;
 
     if (game.ballInHole) {
-        gameOverCountdown -= game.ellapsedTime;
-
-        if (gameOverCountdown <= 0) {
-
-        }
-
-        //return;
+        glutPostRedisplay();
+        return;
     }
 
     if(hasBeenHit == TRUE)
     {
         hasBeenHit = FALSE;
-    //    struct MovementVector3D * movementVector;
-        //Calculate2DVector(&game.ball.motion, game.arrowAngle, 1); //mag of 1 for testing
+
         Calculate2DVector(&game.ball.motion, game.arrowAngle, game.power * lastBarPercentage); // mag based on power
-     //   game.ball.motion = *movementVector;
         game.ball.hasStopped = FALSE;
         game.numberOfStrokes++;
     }
@@ -134,8 +130,7 @@ void Update()
 
         if (ballHitsHole()) {
             game.ballInHole = TRUE;
-            isSplashing = TRUE;
-            glutTimerFunc(5000, Quit, 0);
+            glutTimerFunc(1000, pauseAfterVictory, 0);
         }
 
         //-- Friction

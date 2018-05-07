@@ -128,7 +128,7 @@ void hardcodedLevel (struct Level *level) {
     //-- Position of the camera relative to the world, plus it's initial angle
 
     level->cameraPosition.x = 0;
-    level->cameraPosition.y = 400;
+    level->cameraPosition.y = 500;
     level->cameraPosition.z = 500;
     level->cameraStartingAngle = 45.0;
 
@@ -142,7 +142,7 @@ void hardcodedLevel (struct Level *level) {
     //-- Position of the level model relative to the world
 
     level->position.x = -155;
-    level->position.y = -100;
+    level->position.y = 0;
     level->position.z = -165;
 
     //-- Load up the vertices
