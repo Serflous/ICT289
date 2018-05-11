@@ -7,6 +7,7 @@
 #include "ObjectRendering.h"
 #include "BallPhysics.h"
 #include "UI.h"
+#include "Collision.h"
 
 void initialiseGameState();
 void InitializeGLUT(int * argc, char ** argv);
@@ -156,6 +157,11 @@ void Update()
         game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance / (fps * fps));
 
         //----- Collision detection goes here! -----
+        struct Vector3D wallFacing;
+        if(isColliding(game.ball, game.level.walls, game.level.numberOfInnerWallPolys, game.level.position, &wallFacing) == TRUE)
+        {
+            ApplyImpact(&game.ball.motion, wallFacing, game.level.coefficientOfRestitution);
+        }
 
         //-- If the ball has stopped, point the directional arrow in the same direction that the ball was last moving.
 
