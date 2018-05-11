@@ -160,7 +160,7 @@ void Update()
         struct Vector3D wallFacing;
         if(isColliding(game.ball, game.level.walls, game.level.numberOfInnerWallPolys, game.level.position, &wallFacing) == TRUE)
         {
-            ApplyImpact(&game.ball.motion, wallFacing, game.level.coefficientOfRestitution);
+            game.ball.hasStopped = ApplyImpact(&game.ball.motion, wallFacing, game.level.coefficientOfRestitution);
         }
 
         //-- If the ball has stopped, point the directional arrow in the same direction that the ball was last moving.
