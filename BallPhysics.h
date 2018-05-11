@@ -8,6 +8,7 @@
 #define STOPPED_THRESHOLD 0.002
 
 void Calculate2DVector (struct MovementVector3D *vector, float angle, float magnitude);
+float CalculateAngleFrom2DVector (struct MovementVector3D vector);
 void ApplyMovement (struct Point3D *location, struct MovementVector3D movement);
 bool ApplyFriction (struct MovementVector3D *movement, GLfloat percentageReduction);
 bool ApplyImpact (struct MovementVector3D *movement, struct Vector3D obstacleFace, GLfloat coefficienOfRestitution);

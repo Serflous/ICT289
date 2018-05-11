@@ -26,6 +26,18 @@ void Calculate2DVector (struct MovementVector3D *vector, float angle, float magn
     vector->magnitude = magnitude;
 }
 
+//-- CalculateAngleFrom2DVector
+//-- Takes:       A vector of movement.
+//-- Process:     The function calculates an angle that corresponds to the passed vector.
+//-- Returns:     The angle in degrees.
+//-- Limitations: Currently, the function only supports 2D vectors on an X/Z plane.
+
+float CalculateAngleFrom2DVector (struct MovementVector3D vector)
+{
+    float radians = asin(vector.x);
+    return (radians * 180 / M_PI);
+}
+
 //-- ApplyMovement
 //-- Takes:       A reference to a point corresponding to the location of the ball and a movement vector to apply.
 //-- Process:     It adds the vector of movement to the position of the ball. Effectively, it moves the ball one step.

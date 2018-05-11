@@ -40,7 +40,7 @@ int main(int argc, char ** argv)
     initialiseGameState();
     isSplashing = FALSE;
 
-    //userPreferencesAndInstructions(&(game.level));
+    userPreferencesAndInstructions(&(game.level));
     InitializeGLUT(&argc, argv);
 
     //-- Initialise input callbacks
@@ -145,6 +145,14 @@ void Update()
 
         float fps = 1000.0 / game.ellapsedTime;
         game.ball.hasStopped = ApplyFriction(&game.ball.motion, game.level.rollingResistance / (fps * fps));
+
+        //----- Collision detection goes here! -----
+
+        //-- If the ball has stopped, point the directional arrow in the same direction that the ball was last moving.
+
+        if (game.ball.hasStopped) {
+            game.arrowAngle = CalculateAngleFrom2DVector (game.ball.motion);
+        }
     }
 
     if (IsKeyDown((int)'a', FALSE) || IsKeyDown((int)'A', FALSE))

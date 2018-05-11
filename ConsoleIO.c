@@ -43,7 +43,11 @@ void userPreferencesAndInstructions (struct Level *level) {
 
     clear();
     printf ("\n Minigolf\n ========\n\n");
-    printf (" Insert how to play instructions here when we finalise them!\n");
+    printf (" - Press A or S to rotate the camera around the course.\n");
+    printf (" - Press the left or right arrow keys to set the direction to hit the ball.\n");
+    printf (" - Hold down space to build power and release it to hit the ball.\n");
+    printf (" - Press escape to quit.\n");
+
     printf ("\n Press enter to start.");
     getchar();
 
@@ -51,13 +55,13 @@ void userPreferencesAndInstructions (struct Level *level) {
 
     switch (surfaceChoice) {
         case 1: // Set surface texture here
-                level->rollingResistance = 0.05;
+                level->rollingResistance = 5.0;
                 break;
         case 2: // Set surface texture here
-                level->rollingResistance = 100.0;
+                level->rollingResistance = 2.0;
                 break;
         case 3: // Set surface texture here
-                level->rollingResistance = 100.0;
+                level->rollingResistance = 10.0;
                 break;
     }
 
@@ -66,10 +70,10 @@ void userPreferencesAndInstructions (struct Level *level) {
                 level->coefficientOfRestitution = 0.67;
                 break;
         case 2: // Set wall textures here
-                level->coefficientOfRestitution = 0.0;
+                level->coefficientOfRestitution = 0.9;
                 break;
         case 3: // Set wall textures here
-                level->coefficientOfRestitution = 0.0;
+                level->coefficientOfRestitution = 0.3;
                 break;
     }
 }
