@@ -34,6 +34,8 @@ struct Level
 
     int numberOfTopWallPolys;
     struct IndexedQuad *topWallPolys;
+
+    struct WallCollsion *walls;
 };
 
 void hardcodedLevel (struct Level *level);

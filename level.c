@@ -1,4 +1,4 @@
-
+#include <stdio.h>
 #include "level.h"
 #include "ObjectRendering.h"
 #include "Constants.h"
@@ -178,6 +178,53 @@ void hardcodedLevel (struct Level *level) {
     for (int i = 0; i < level->numberOfInnerWallPolys; i++) {
         for (int j = 0; j < 4; j++) {
             level->innerWallPolys[i].vertexArrayIndices[j] = hardcodedInnerWallPolys[i].vertexArrayIndices[j];
+        }
+    }
+
+    // Calculate wall lines for collision
+
+    level->walls = calloc(level->numberOfInnerWallPolys, sizeof(struct WallCollsion));
+    for(int i = 0; i < level->numberOfInnerWallPolys; i++)
+    {
+        int count = 0;
+        for(int j = 0; j < 4; j++)
+        {
+            if(hardcodedVertices[hardcodedInnerWallPolys[i].vertexArrayIndices[j]].y == 0)
+            {
+                if(count == 0)
+                {
+                    level->walls[i].x1 = hardcodedVertices[hardcodedInnerWallPolys[i].vertexArrayIndices[j]].x;
+                    level->walls[i].z1 = hardcodedVertices[hardcodedInnerWallPolys[i].vertexArrayIndices[j]].z;
+                    count++;
+                }
+                else if(count == 1)
+                {
+                    level->walls[i].x2 = hardcodedVertices[hardcodedInnerWallPolys[i].vertexArrayIndices[j]].x;
+                    level->walls[i].z2 = hardcodedVertices[hardcodedInnerWallPolys[i].vertexArrayIndices[j]].z;
+                    count++;
+                }
+
+                if(count == 2)
+                {
+                    // Determine facing
+                    struct Vector3D face;
+                    // If x is the same, then z line
+                    if(level->walls[i].x1 == level->walls[i].x2)
+                    {
+                        level->walls[i].face.x = 0;
+                        level->walls[i].face.y = 0;
+                        level->walls[i].face.z = 1;
+                    }
+                    // If z is the same, then x line
+                    if(level->walls[i].z1 == level->walls[i].z2)
+                    {
+                        level->walls[i].face.x = 1;
+                        level->walls[i].face.y = 0;
+                        level->walls[i].face.z = 0;
+                    }
+                    break;
+                }
+            }
         }
     }
 

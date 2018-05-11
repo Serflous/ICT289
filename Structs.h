@@ -74,4 +74,10 @@ struct Ball {
     bool hasStopped;
 };
 
+struct WallCollsion
+{
+    float x1, x2, z1, z2;
+    struct Vector3D face;
+};
+
 #endif // STRUCTS_H
