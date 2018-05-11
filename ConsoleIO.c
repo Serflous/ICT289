@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//-- Text/console functions ----------
+//-- Text/console functions -------------------
+
+//-- Clears the screen. Windows only.
 
 void clear(){
     system("cls");
 }
+
+//-- Reads a number between 1 and 3 from the user.
 
 int getMenuChoice () {
 
@@ -23,8 +27,12 @@ int getMenuChoice () {
     return (int)(input - '0');        // Apparently this works even with unicode
 }
 
+//-- Display information to the user about the game and get their preferences for surface materials.
+
 void userPreferencesAndInstructions (struct Level *level) {
     clear();
+
+    //-- Playing surface
 
     printf ("\n Minigolf\n ========\n\n");
     printf (" What kind of surface do you want to play on?\n");
@@ -34,12 +42,16 @@ void userPreferencesAndInstructions (struct Level *level) {
 
     int surfaceChoice = getMenuChoice();
 
+    //-- Wall construction
+
     printf ("\n What kind of walls do you want?\n");
     printf ("  1. Wood (normal)\n");
     printf ("  2. Rubber (bouncy)\n");
     printf ("  3. Cloth (absorbing)\n");
 
     int wallChoice = getMenuChoice();
+
+    //-- Instructions
 
     clear();
     printf ("\n Minigolf\n ========\n\n");
@@ -51,7 +63,7 @@ void userPreferencesAndInstructions (struct Level *level) {
     printf ("\n Press enter to start.");
     getchar();
 
-    //-- Update the level according to the user's choices
+    //-- Update the level according to the user's choices. First, the surface
 
     switch (surfaceChoice) {
         case 1: // Set surface texture here
@@ -64,6 +76,8 @@ void userPreferencesAndInstructions (struct Level *level) {
                 level->rollingResistance = 10.0;
                 break;
     }
+
+    //-- ... then the wall
 
     switch (wallChoice) {
         case 1: // Set wall textures here

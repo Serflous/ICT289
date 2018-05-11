@@ -108,6 +108,8 @@ static struct IndexedQuad hardcodedTopWallPolys[] = {
     {32, 33, 35, 34}
 };
 
+//-- Creates a hard coded test level and stores it in the provided level structure.
+
 void hardcodedLevel (struct Level *level) {
 
     //-- Par for the course. Currently a guess.

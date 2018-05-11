@@ -1,7 +1,7 @@
 #include "ObjectRendering.h"
 #include <math.h>
 
-//-- Renders the ground
+//-- Renders the ground - a circular, spotlight-like area around the course.
 
 void drawGround (struct Point3D position) {
     glColor3f(0, 0.5, 0);
@@ -48,10 +48,7 @@ void drawArrow (struct Point3D ballPosition, float angle, struct Colour colour) 
     glPopMatrix();
 }
 
-//-- Draws the golf course hole relative to the course. It assumes the hole sits on the course
-//-- surface (and therefore doesn't need a Y coordinate).
-
-//-- However, the function also currently assumes the course is flat.
+//-- Draws the golf course hole relative to the course.
 
 void drawHole (GLfloat x, GLfloat y, GLfloat z, GLfloat radius) {
 
@@ -64,7 +61,7 @@ void drawHole (GLfloat x, GLfloat y, GLfloat z, GLfloat radius) {
 	glPopMatrix();
 }
 
-//-- Renders a disc
+//-- Renders a disc. Used for the ground and hole.
 
 void drawDisc (float radius, int detailLevel) {
 

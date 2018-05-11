@@ -9,7 +9,6 @@
 #include "UI.h"
 
 void initialiseGameState();
-
 void InitializeGLUT(int * argc, char ** argv);
 void DisplayCallback();
 void ReshapeCallback(int x, int y);
@@ -44,6 +43,7 @@ int main(int argc, char ** argv)
     InitializeGLUT(&argc, argv);
 
     //-- Initialise input callbacks
+
     InputInitialize();
     glutKeyboardFunc(NormalKeyDownCallback);
     glutKeyboardUpFunc(NormalKeyUpCallback);
@@ -83,15 +83,24 @@ void initialiseGameState() {
     game.camera.angle = game.level.cameraStartingAngle;
 }
 
+//-- Detects whether the ball has fallen in the hole.
+
 bool ballHitsHole () {
+
+    //-- Work out the position of the hole in real space
 
     float holeX = game.level.holePosition.x + game.level.position.x;
     float holeZ = game.level.holePosition.z + game.level.position.z;
+
+    //-- Work out the distance between the ball and the hole
 
     float xDistance = game.ball.position.x - holeX;
     float zDistance = game.ball.position.z - holeZ;
 
     float totalDistance = sqrt((xDistance * xDistance) + (zDistance * zDistance));
+
+    //-- Check if they have collided. Note that we don't want the ball to fall in at the barest touch and
+    //-- needs to overlap the hole some before it falls.
 
     return (totalDistance <= HOLE_RADIUS_PX / 2);
 }
@@ -180,6 +189,7 @@ void Update()
             game.arrowAngle -= ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
         }
     }
+
     UpdateUI(game.ellapsedTime);
     glutPostRedisplay();
 }
