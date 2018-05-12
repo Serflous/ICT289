@@ -8,7 +8,6 @@
 #include "BallPhysics.h"
 #include "UI.h"
 #include "Collision.h"
-
 void initialiseGameState();
 void InitializeGLUT(int * argc, char ** argv);
 void DisplayCallback();
@@ -136,6 +135,7 @@ void Update()
     }
     if(game.ball.hasStopped == FALSE)
     {
+       struct Point3D previousPosition = game.ball.position;
         ApplyMovement(&game.ball.position, game.ball.motion);
 
         if (ballHitsHole()) {
@@ -160,6 +160,7 @@ void Update()
         struct Vector3D wallFacing;
         if(isColliding(game.ball, game.level.walls, game.level.numberOfInnerWallPolys, game.level.position, &wallFacing) == TRUE)
         {
+            game.ball.position = previousPosition;
             game.ball.hasStopped = ApplyImpact(&game.ball.motion, wallFacing, game.level.coefficientOfRestitution);
         }
 
@@ -194,9 +195,8 @@ void Update()
         {
             game.arrowAngle -= ARROW_ROTATION_SPEED / 1000.0 * game.ellapsedTime;
         }
+        UpdateUI(game.ellapsedTime);
     }
-
-    UpdateUI(game.ellapsedTime);
     glutPostRedisplay();
 }
 
@@ -280,7 +280,7 @@ void DisplayCallback()
 
     if(isSplashing == FALSE)
     {
-        DrawUI();
+        DrawUI(game.level.par, game.numberOfStrokes);
     }
     else
     {

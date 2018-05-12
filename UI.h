@@ -14,7 +14,7 @@ extern bool hasBeenHit;
 
 void InitializeUI();
 void UpdateUI(int deltaTime);
-void DrawUI();
+void DrawUI(int par, int turns);
 void DrawSplash(int turns);
 float GetBarSpeed(int deltaTime);
 

@@ -42,7 +42,7 @@ void DrawString(const char * string, struct Point2D position, struct Point3D col
     glPopAttrib();
 }
 
-void DrawUI()
+void DrawUI(int par, int turns)
 {
     // UI BAR RGB(135, 209, 237)
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH); // Window Width
@@ -200,8 +200,8 @@ void DrawUI()
         char * courseParTextBuffer[50];
         char * playerMovesTakenTextBuffer[50];
         snprintf(powerTextBuffer, sizeof(powerTextBuffer) - 1, "Power: %.2f", lastBarPercentage);
-        snprintf(courseParTextBuffer, sizeof(courseParTextBuffer) - 1, "Course Par: %i", 3);
-        snprintf(playerMovesTakenTextBuffer, sizeof(playerMovesTakenTextBuffer) - 1, "Moves Taken: %i", 0);
+        snprintf(courseParTextBuffer, sizeof(courseParTextBuffer) - 1, "Course Par: %i", par);
+        snprintf(playerMovesTakenTextBuffer, sizeof(playerMovesTakenTextBuffer) - 1, "Moves Taken: %i", turns);
         DrawString(powerTextBuffer, powerTextPos, colour, scale);
         scale.x = 0.2f;
         scale.y = 0.2f;
