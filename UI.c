@@ -258,6 +258,7 @@ void DrawSplash(int turns)
 
 void UpdateUI(int deltaTime)
 {
+    static float hundredCount = 0;
     if(IsKeyDown(' ', FALSE) && spaceDown == FALSE)
     {
         spaceDown = TRUE;
@@ -272,8 +273,16 @@ void UpdateUI(int deltaTime)
     if(spaceDown == TRUE)
     {
         barPercentage += GetBarSpeed(deltaTime);
-        if(barPercentage > 1)
-            barPercentage = 0.01f;
+        if(barPercentage >= 1)
+        {
+            hundredCount += (deltaTime);
+            barPercentage = 1;
+            if(hundredCount >= 100)
+            {
+                barPercentage = 0.01f;
+                hundredCount = 0;
+            }
+        }
     }
     else
     {
@@ -288,10 +297,10 @@ float GetBarSpeed(int deltaTime)
     {
         return 0.011f * newDelta;
     }
-    else if (barPercentage > 0.95)
+    /*else if (barPercentage > 0.95)
     {
         return 0.001f * newDelta;
-    }
+    }*/
     else
     {
         return 0.07f * powf(barPercentage, 1.4f) * newDelta;
