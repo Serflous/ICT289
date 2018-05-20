@@ -28,7 +28,7 @@ void InitializeUI()
 void DrawString(const char * string, struct Point2D position, struct Point3D colour, struct Point3D scale)
 {
     glPushAttrib(GL_ENABLE_BIT);
-    glDisable(GL_TEXTURE);
+    glDisable(GL_TEXTURE_2D);
     glPushMatrix();
     glLoadIdentity();
     glTranslatef(position.x, position.y, -1);

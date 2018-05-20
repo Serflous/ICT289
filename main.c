@@ -49,6 +49,7 @@ int main(int argc, char ** argv)
     glutKeyboardUpFunc(NormalKeyUpCallback);
     glutSpecialFunc(SpecialKeyDownCallback);
     glutSpecialUpFunc(SpecialKeyUpCallback);
+    glutMouseFunc(MouseCallback);
 
     glutMainLoop();
 
@@ -185,7 +186,7 @@ void Update()
         isSplashing = TRUE;
         glutTimerFunc(5000, Quit, 0);
     }
-
+    game.camera.position.z = wheelScroll;
     if (game.ball.hasStopped) {
         if(IsKeyDown(LEFT_ARROW_KEY, TRUE))
         {
