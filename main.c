@@ -117,6 +117,12 @@ void Update()
 {
     glutTimerFunc(1000/TARGET_FPS, Update, 0);
 
+    GLenum error = glGetError();
+    if(error != GL_NO_ERROR)
+    {
+        printf("GL ERROR: %s\n", gluErrorString(error));
+    }
+
     int currentTime = glutGet(GLUT_ELAPSED_TIME);
     game.ellapsedTime = currentTime - game.previousTime;
     game.previousTime = currentTime;
@@ -204,7 +210,7 @@ void Update()
 void InitializeGLUT(int * argc, char ** argv)
 {
     glutInit(argc, argv);
-    //glutSetOption(GLUT_MULTISAMPLE, 8);
+    glutSetOption(GLUT_MULTISAMPLE, 8);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE); // Initialize display modes, with RGBA, double buffering, and a depth buffer, and multi sampling.
     glutInitWindowPosition(INIT_WINDOW_POS_X, INIT_WINDOW_POS_Y);
     glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
