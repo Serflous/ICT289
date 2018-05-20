@@ -118,8 +118,8 @@ void hardcodedLevel (struct Level *level) {
 
     //-- Default values for the physical attributes
 
-    level->rollingResistance = 5.0;
-    level->coefficientOfRestitution = 0.67;
+    //level->rollingResistance = 5.0;
+    //level->coefficientOfRestitution = 0.67;
 
     //-- Position of the hole relative to the course
 
@@ -262,6 +262,20 @@ void drawQuadPoly (struct Point3D *vertices, struct IndexedQuad poly) {
     glEnd();
 }
 
+void drawTexturedQuad(struct Point3D * verts, struct IndexedQuad poly)
+{
+    glBegin(GL_POLYGON);
+        glTexCoord2f(0, 0);
+        glVertex3f(verts[poly.vertexArrayIndices[0]].x, verts[poly.vertexArrayIndices[0]].y, verts[poly.vertexArrayIndices[0]].z);
+        glTexCoord2f(0, 1);
+        glVertex3f(verts[poly.vertexArrayIndices[1]].x, verts[poly.vertexArrayIndices[1]].y, verts[poly.vertexArrayIndices[1]].z);
+        glTexCoord2f(1, 1);
+        glVertex3f(verts[poly.vertexArrayIndices[2]].x, verts[poly.vertexArrayIndices[2]].y, verts[poly.vertexArrayIndices[2]].z);
+        glTexCoord2f(1, 0);
+        glVertex3f(verts[poly.vertexArrayIndices[3]].x, verts[poly.vertexArrayIndices[3]].y, verts[poly.vertexArrayIndices[3]].z);
+    glEnd();
+}
+
 //-- Draw a level - green, walls and hole
 
 void drawLevel (struct Level *level) {
@@ -271,35 +285,39 @@ void drawLevel (struct Level *level) {
 
     //-- Draw the green
 
-    glColor3f(0, 0.7, 0);
-
+    //glColor3f(0, 0.7, 0);
+    glPushAttrib(GL_ENABLE_BIT);
+    glEnable(GL_TEXTURE_2D);
+    glColor3f(1, 1, 1);
+    glBindTexture(GL_TEXTURE_2D, level->texFloor.texId);
     for (int i = 0; i < level->numberOfGreenPolys; i++) {
-        drawQuadPoly (level->vertices, level->greenPolys[i]);
+        drawTexturedQuad(level->vertices, level->greenPolys[i]);
     }
-
     //-- Draw the inner walls
 
-    glColor3f(0.3921, 0.2196, 0.0470);
+    //glColor3f(0.3921, 0.2196, 0.0470);
+    glBindTexture(GL_TEXTURE_2D, level->texWall.texId);
 
     for (int i = 0; i < level->numberOfInnerWallPolys; i++) {
-        drawQuadPoly (level->vertices, level->innerWallPolys[i]);
+        drawTexturedQuad (level->vertices, level->innerWallPolys[i]);
     }
 
     //-- Draw the outer walls
 
-    glColor3f(0.3921, 0.2196, 0.0470);
+    //glColor3f(0.3921, 0.2196, 0.0470);
 
     for (int i = 0; i < level->numberOfOuterWallPolys; i++) {
-        drawQuadPoly (level->vertices, level->outerWallPolys[i]);
+        drawTexturedQuad (level->vertices, level->outerWallPolys[i]);
     }
 
     //-- Draw the top walls
 
-    glColor3f(0.490, 0.3137, 0.1411);
+    //glColor3f(0.490, 0.3137, 0.1411);
 
     for (int i = 0; i < level->numberOfTopWallPolys; i++) {
-        drawQuadPoly (level->vertices, level->topWallPolys[i]);
+        drawTexturedQuad (level->vertices, level->topWallPolys[i]);
     }
+    glPopAttrib();
 
     //-- Draw the hole
 

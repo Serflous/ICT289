@@ -3,6 +3,6 @@
 
 #include "level.h"
 
-void userPreferencesAndInstructions (struct Level *level);
+void userPreferencesAndInstructions (struct Level * level);
 
 #endif // USERPREFERENCESANDINSTRUCTIONS_H_INCLUDED

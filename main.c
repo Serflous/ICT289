@@ -36,12 +36,12 @@ bool isSplashing;
 
 int main(int argc, char ** argv)
 {
-    initialiseGameState();
-    isSplashing = FALSE;
 
     userPreferencesAndInstructions(&(game.level));
     InitializeGLUT(&argc, argv);
-
+    initialiseGameState();
+    loadSelectedTextures(&(game.level));
+    isSplashing = FALSE;
     //-- Initialise input callbacks
 
     InputInitialize();

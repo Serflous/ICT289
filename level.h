@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "Structs.h"
+#include "TextureLoading.h"
 
 struct IndexedQuad {
     int vertexArrayIndices[4];
@@ -19,6 +20,7 @@ struct Level
 
     float cameraStartingAngle, ballStartingAngle;
     float rollingResistance, coefficientOfRestitution;
+    struct Texture texFloor, texWall;
 
     int numberOfVertices;
     struct Point3D *vertices;

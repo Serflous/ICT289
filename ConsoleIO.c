@@ -91,3 +91,20 @@ void userPreferencesAndInstructions (struct Level *level) {
                 break;
     }
 }
+
+void loadSelectedTextures(struct Level * level)
+{
+    if(level->rollingResistance == 5.0f)
+        level->texFloor = LoadTexture("res/grass.raw", 512, 512, 4);
+    else if(level->rollingResistance == 2.0f)
+        level->texFloor = LoadTexture("res/ice.raw", 512, 512, 4);
+    else if(level->rollingResistance == 10.0f)
+        level->texFloor = LoadTexture("res/dirt.raw", 512, 512, 4);
+
+    if(level->coefficientOfRestitution == 0.67f)
+        level->texWall = LoadTexture("res/wood.raw", 512, 512, 4);
+    else if(level->coefficientOfRestitution == 0.9f)
+        level->texWall = LoadTexture("res/rubber.raw", 512, 512, 4);
+    else if(level->coefficientOfRestitution == 0.3f)
+        level->texWall = LoadTexture("res/cloth.raw", 512, 512, 4);
+}

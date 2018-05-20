@@ -24,7 +24,21 @@ struct Texture LoadTexture(const char * filepath, int width, int height, int byt
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+	GLenum format;
+	switch(byteSize)
+	{
+    case 4:
+        format = GL_RGBA;
+        break;
+    case 3:
+        format = GL_RGB;
+        break;
+    default:
+        format = GL_RGBA;
+        break;
+	}
+
+	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, format, GL_UNSIGNED_BYTE, data);
 
 	free(data);
 
