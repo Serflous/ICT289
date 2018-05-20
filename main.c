@@ -204,14 +204,14 @@ void Update()
 void InitializeGLUT(int * argc, char ** argv)
 {
     glutInit(argc, argv);
-    glutSetOption(GLUT_MULTISAMPLE, 8);
+    //glutSetOption(GLUT_MULTISAMPLE, 8);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH | GLUT_MULTISAMPLE); // Initialize display modes, with RGBA, double buffering, and a depth buffer, and multi sampling.
     glutInitWindowPosition(INIT_WINDOW_POS_X, INIT_WINDOW_POS_Y);
     glutInitWindowSize(INIT_WINDOW_SIZE_X, INIT_WINDOW_SIZE_Y);
     glutCreateWindow(WINDOW_TITLE);
     glutDisplayFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
-    glClearColor(1.0f, 0, 0, 1.0f);
+    glClearColor(0, 0, 0, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
