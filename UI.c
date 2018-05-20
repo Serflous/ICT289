@@ -36,7 +36,7 @@ void DrawString(const char * string, struct Point2D position, struct Point3D col
     glRotatef(180, 1, 0, 0);
 
     glColor4f(colour.x, colour.y, colour.z, 1.0f);
-    glutStrokeString(GLUT_STROKE_ROMAN, string);
+    glutStrokeString(GLUT_STROKE_MONO_ROMAN, string);
 
     glPopMatrix();
     glPopAttrib();

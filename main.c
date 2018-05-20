@@ -211,7 +211,7 @@ void InitializeGLUT(int * argc, char ** argv)
     glutCreateWindow(WINDOW_TITLE);
     glutDisplayFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
-    glClearColor(0, 0, 0, 1.0f);
+    glClearColor(1.0f, 0, 0, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
