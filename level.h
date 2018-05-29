@@ -20,7 +20,7 @@ struct Level
 
     float cameraStartingAngle, ballStartingAngle;
     float rollingResistance, coefficientOfRestitution;
-    struct Texture texFloor, texWall;
+    struct Texture texFloor, texWallInner, texWallOuter;
 
     int numberOfVertices;
     struct Point3D *vertices;

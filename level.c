@@ -296,7 +296,7 @@ void drawLevel (struct Level *level) {
     //-- Draw the inner walls
 
     //glColor3f(0.3921, 0.2196, 0.0470);
-    glBindTexture(GL_TEXTURE_2D, level->texWall.texId);
+    glBindTexture(GL_TEXTURE_2D, level->texWallInner.texId);
 
     for (int i = 0; i < level->numberOfInnerWallPolys; i++) {
         drawTexturedQuad (level->vertices, level->innerWallPolys[i]);
@@ -305,6 +305,7 @@ void drawLevel (struct Level *level) {
     //-- Draw the outer walls
 
     //glColor3f(0.3921, 0.2196, 0.0470);
+    glBindTexture(GL_TEXTURE_2D, level->texWallOuter.texId);
 
     for (int i = 0; i < level->numberOfOuterWallPolys; i++) {
         drawTexturedQuad (level->vertices, level->outerWallPolys[i]);

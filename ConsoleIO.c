@@ -102,9 +102,18 @@ void loadSelectedTextures(struct Level * level)
         level->texFloor = LoadTexture("res/dirt.raw", 512, 512, 4);
 
     if(level->coefficientOfRestitution == 0.67f)
-        level->texWall = LoadTexture("res/wood.raw", 512, 512, 4);
+    {
+        level->texWallInner = LoadTexture("res/wood-dark.raw", 512, 512, 4);
+        level->texWallOuter = LoadTexture("res/wood-light.raw", 512, 512, 4);
+    }
     else if(level->coefficientOfRestitution == 0.9f)
-        level->texWall = LoadTexture("res/rubber.raw", 512, 512, 4);
+    {
+        level->texWallInner = LoadTexture("res/rubber-dark.raw", 512, 512, 4);
+        level->texWallOuter = LoadTexture("res/rubber-light.raw", 512, 512, 4);
+    }
     else if(level->coefficientOfRestitution == 0.3f)
-        level->texWall = LoadTexture("res/cloth.raw", 512, 512, 4);
+    {
+        level->texWallInner = LoadTexture("res/cloth-dark.raw", 512, 512, 4);
+        level->texWallOuter = LoadTexture("res/cloth-light.raw", 512, 512, 4);
+    }
 }
