@@ -3,5 +3,6 @@
 *.layout
 *.lnk
 *.bat
+*.cscope_file_list
 bin/*
 obj/*

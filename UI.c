@@ -31,7 +31,7 @@ void DrawString(const char * string, struct Point2D position, struct Point3D col
     glDisable(GL_TEXTURE_2D);
     glPushMatrix();
     glLoadIdentity();
-    glTranslatef(position.x, position.y, -1);
+    glTranslatef(position.x, position.y, 0);
     glScalef(scale.x, scale.y, scale.z);
     glRotatef(180, 1, 0, 0);
 
